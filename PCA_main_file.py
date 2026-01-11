@@ -1,6 +1,6 @@
 import pandas as pd
 
-df = pd.read_csv("/Users/tamarkan/PycharmProjects/PythonProject/Parkinson-Disease-Data-Analysis-and-Profiles-Classification/data/parkinsons_cleaned.csv")
+df = pd.read_csv("data/parkinsons_cleaned.csv")
 print(df.head())
 
 # Keep only the sick patients in the data frame.
@@ -16,5 +16,4 @@ df = df.drop(columns=["PatientID","UPDRS", "MoCA", "FunctionalAssessment"]) #Rem
 print(df.info())
 print(df.head(50))
 
-df.to_csv("parkinsons_lifestyle_clinical_for_PCA.csv",index=True)
-#/Users/tamarkan/PycharmProjects/PythonProject/Parkinson-Disease-Data-Analysis-and-Profiles-Classification/data
+df.to_csv("data/parkinsons_lifestyle_clinical_for_PCA.csv",index=True)
