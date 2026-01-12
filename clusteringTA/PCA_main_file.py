@@ -1,6 +1,6 @@
 import pandas as pd
 
-df = pd.read_csv("data/parkinsons_cleaned.csv")
+df = pd.read_csv("../data/parkinsons_cleaned.csv")
 print(df.head())
 
 # Keep only the sick patients in the data frame.
