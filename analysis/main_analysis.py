@@ -24,10 +24,6 @@ def run_analysis_pipeline(data_path):
     plot_severity_distributions(sick_df)
     analyze_metric_dissociation(sick_df)
     
-    severity_metrics = ['UPDRS', 'MoCA', 'FunctionalAssessment']
-    impact_df = get_severity_impact(sick_df, severity_metrics)
-    plot_impact_profiles(impact_df)
-
     # 8-10. Biological Patterns and Evolution
     run_poisson_analysis(sick_df)
     run_gatekeeper_analysis(sick_df)
