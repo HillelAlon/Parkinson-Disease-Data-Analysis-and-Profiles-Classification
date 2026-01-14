@@ -26,18 +26,3 @@ df.to_csv("data/parkinsons_lifestyle_clinical_for_PCA.csv",index=True)
 #4.1 Correlate between clustering and UPDRS (Unified Parkinson's Disease Rating Scale).
 #4.2 Correlate between clustering and MoCA (Montreal Cognitive Assessment).
 #4.3 Correlate between clustering and FunctionalAssessment.
-
-
-df1 = df
-print(df1.info())
-print(df1.head())
-print(df1.describe())
-for col in df.columns:
-    df1[f'{col} Z-Scores'] = (df[col] - df[col].mean()) / df[col].std()
-    print(round(df1[f'{col} Z-Scores'].mean(),2))
-print(df1.info())
-print(df1.head())
-print(df1.describe())
-print(df.info())
-print(df.head())
-print(df.describe())
