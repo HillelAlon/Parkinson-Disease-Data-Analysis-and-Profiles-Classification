@@ -38,6 +38,7 @@ clusters_plot(df_pca_output)
 #4. Clustering.
 elbow_method(df_pca_output)
 k_means_clustering(df_pca_output)
+clusters_3d_plot(df_pca_output)
 cluster_profiles = cluster_profile(df_pca,df_pca_output)
 cluster_heat_map(df_pca,cluster_profiles)
 

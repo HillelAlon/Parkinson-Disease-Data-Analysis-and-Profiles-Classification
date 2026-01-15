@@ -227,6 +227,38 @@ def k_means_clustering(df_pca_output):
 # Execution
 k_means_clustering(df_pca_output)
 
+def clusters_3d_plot(df_pca_output):
+
+    fig = plt.figure(figsize=(10, 8))
+    ax = fig.add_subplot(111, projection='3d')
+
+    # Color the points by their Cluster ID (0, 1, 2)
+    scatter = ax.scatter(df_pca_output['PC1'],
+                         df_pca_output['PC2'],
+                         df_pca_output['PC3'],
+                         c=df_pca_output['Cluster'], # This is the magic line!
+                         cmap='Set1', # A colorful palette for distinct groups
+                         s=40,
+                         alpha=0.8)
+
+    ax.set_title("Identified Patient Profiles (4 Clusters)", fontsize=15)
+    ax.set_xlabel('PC1')
+    ax.set_ylabel('PC2')
+    ax.set_zlabel('PC3')
+
+    # Add a legend to show which color is which Cluster
+    legend1 = ax.legend(*scatter.legend_elements(), title="Clusters")
+    ax.add_artist(legend1)
+
+    plt.show()
+
+    logger.info("3D Cluster Visualization created successfully.")
+
+# Execution
+clusters_3d_plot(df_pca_output)
+
+
+
 
 # Cluster Profiling
 def cluster_profile(df_pca,df_pca_output):
