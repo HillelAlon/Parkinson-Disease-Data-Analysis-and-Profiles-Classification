@@ -57,7 +57,6 @@ if __name__ == "__main__":
 '''
 #ORR - idk whats going on uphere. this part is mine :)
 #import liberys 
-import IPython.display as display
 
 #import load and cleaning function
 from cleaning_data.data_cleaning import load_and_clean_data
@@ -65,6 +64,7 @@ from cleaning_data.data_cleaning import load_and_clean_data
 file_path = 'data/parkinsons_disease_data.csv'
 index_col = 'PatientID'
 columns_to_drop = ['DoctorInCharge']
+output_file = 'data/parkinsons_cleaned.csv'
 
 '''---Cleaning data function ---
     GET - csv file, string that represent index column, list of irrelevant Columns. 
@@ -72,6 +72,7 @@ columns_to_drop = ['DoctorInCharge']
     RETURN - data frame without the irrelevant Columns, index column set as index column, without duplicates '''
 
 df_clean = load_and_clean_data(file_path, index_col, columns_to_drop)
+df_clean.to_csv(output_file, index=True)
 
-display(df_clean.head())
+print(df_clean.head())
 #ORR - up to here

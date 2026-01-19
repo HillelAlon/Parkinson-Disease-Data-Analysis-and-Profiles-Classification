@@ -48,7 +48,7 @@ def load_and_clean_data(csv_path, index_col_name, cols_to_remove):
     initial_rows = len(df_clean)
     df_clean = df_clean.drop_duplicates()
     dropped_rows = initial_rows - len(df_clean)
-    
+
     print(f"Successfully loaded. Dropped {dropped_rows} duplicates. Final shape: {df_clean.shape}")
     
     return df_clean
