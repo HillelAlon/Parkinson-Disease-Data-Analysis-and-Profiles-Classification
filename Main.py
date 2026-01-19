@@ -1,4 +1,4 @@
-from src.data_loader import load_raw_data, clean_data_structure, prepare_for_modeling, save_data
+'''from src.data_loader import load_raw_data, clean_data_structure, prepare_for_modeling, save_data
 
 def main():
     # Pipeline
@@ -54,3 +54,24 @@ def main():
 
 if __name__ == "__main__":
     main()
+'''
+#ORR - idk whats going on uphere. this part is mine :)
+#import liberys 
+import IPython.display as display
+
+#import load and cleaning function
+from cleaning_data.data_cleaning import load_and_clean_data
+
+file_path = 'data/parkinsons_disease_data.csv'
+index_col = 'PatientID'
+columns_to_drop = ['DoctorInCharge']
+
+'''---Cleaning data function ---
+    GET - csv file, string that represent index column, list of irrelevant Columns. 
+    CHECKS - if all the inputs are right type. ELSE - value error
+    RETURN - data frame without the irrelevant Columns, index column set as index column, without duplicates '''
+
+df_clean = load_and_clean_data(file_path, index_col, columns_to_drop)
+
+display(df_clean.head())
+#ORR - up to here
