@@ -1,8 +1,13 @@
+# project name: Parkinson Disease Data Analysis and Profiles Classification
+
+# Required Dependencies
 pandas~=2.3.3
 numpy~=2.4.1
 scikit-learn~=1.8.0
 matplotlib~=3.10.8
 seaborn~=0.13.2
 ipython~=9.9.0
-IPython.display
 scipy~=1.17.0
+
+# Development dependencies
+pytest

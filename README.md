@@ -1,42 +1,61 @@
 ## Parkinson Disease Data Analysis and Profiles Classification
-This dataset comprises comprehensive health information for 2,105 patients, some diagnosed with Parkinson's Disease. 
-Patient Profiling in Parkinson's Disease using PCA & Clustering.
 
- # Project Overview
-This collaborative research project investigates the complex relationships between clinical characteristics, lifestyle factors, and disease progression in patients with Parkinson's Disease. Using a dataset of over 2,100 patients, our team conducted several analyses to uncover hidden patterns and correlations that contribute to a deeper understanding of the disease's heterogeneity.
-Link for slides: https://docs.google.com/presentation/d/1nOysAlVYcGIlKAsOH9k4TYhBiuq9o8w6vciK3Ff_9Ow/edit?slide=id.g3b572de3954_2_103#slide=id.g3b572de3954_2_103
+This project investigates comprehensive health information for 2,105 patients to uncover patterns in Parkinson's Disease progression. By integrating statistical analysis with clustering, we aim to move toward personalized treatment strategies through advanced patient profiling.
+
+## Project Overview
+This research explores the relationships between lifestyle choices, clinical characteristics, and disease severity. 
+**Hypothesis:** Patients can be categorized into distinct phenotypes based on clinical and lifestyle data, and these groups show different trajectories of physical and cognitive decline.
+**link for gitHub:** https://github.com/HillelAlon/Parkinson-Disease-Data-Analysis-and-Profiles-Classification
+**Link for slides:** [Project Presentation](https://docs.google.com/presentation/d/1nOysAlVYcGIlKAsOH9k4TYhBiuq9o8w6vciK3Ff_9Ow/edit?slide=id.g3b572de3954_2_103#slide=id.g3b572de3954_2_103).
+
 
  # Research Goal
 To use machine learning (K-Means) and dimensionality reduction (PCA) to group patients into 4 distinct clusters, enabling a more personalized approach to wellness and treatment strategies.
 The overarching goal of this study was to identify key factors influencing patient health and to categorize patients into meaningful subgroups for personalized care.
 
 The project consists of several core analyses:
-
-Correlation & Trend Analysis: Investigating how specific lifestyle choices (diet, exercise) correlate with clinical symptoms.
-
-Predictive Modeling/Statistical Testing
-
-Advanced Patient Profiling: Using Machine Learning to identify distinct patient phenotypes.
+- Correlation & Trend Analysis: Investigating how specific lifestyle choices (diet, exercise) correlate with clinical symptoms.
+- Predictive Modeling/Statistical Testing
+- Advanced Patient Profiling: Using Machine Learning to identify distinct patient phenotypes.
 
  # Methodology
-- Data cleaning - convert PatientID to Index, Remove Irrelevant Columns, Remove Duplicates, Save Cleaned Data
-- Dimensionality Reduction (PCA): Synthesized 12 complex lifestyle and clinical variables into 3 Principal Components, capturing over 70% of the data's variance.
-
-- Optimal Clustering: Applied the Elbow Method to determine the most stable number of patient subgroups.
-
-- Phenotype Identification: Utilized K-Means Clustering to divide the population into 4 distinct profiles, visualized through 3D plotting and standardized Heatmaps.
-
+1. **Data cleaning** - convert PatientID to Index, Remove Irrelevant Columns, Remove Duplicates, Save Cleaned Data
+2.  **Analysis:** Generating correlation heatmaps and identifying risk/protective lifestyle factors.
+    - **Poisson Analysis:** Proving that symptoms aggregate biologically rather than randomly.
+    - **Gatekeeper Analysis:** Identifying symptoms that influence the overall disease burden.
+3.  **Clustering**
+    - **Normalization:** Scaling data using Z-Scores.
+    - **PCA:** Reducing 12 variables into 3 Principal Components (capturing >70% variance).
+    - **K-Means:** Grouping patients into 4 profiles using the Elbow Method.
+4.  **Visualization:** 3D plotting of clusters, standardized heatmaps, and disease progression roadmaps (Physical vs. Cognitive trajectories).
 
 # Key Findings 
 - A synthetic data is not always realistic :(
 
+## Data Description
+The dataset contains 2,105 patient records with features including:
+- **Lifestyle:** Diet Quality, Physical Activity, Sleep Quality, BMI.
+- **Clinical:** UPDRS (Physical severity), MoCA (Cognitive score), and specific symptoms like Tremor and Rigidity.
+
+## Folder Structure
+* `Main.py`: The central entry point for running the cleaning and analysis pipeline.
+* `cleaning_data/`: 
+    * `data_cleaning.py`: Functions for data loading, validation, and preprocessing.
+* `analysis/`:
+    * `analysis_logic.py`: Core logic for statistical tests, Poisson distribution, and disease trajectories.
+    * `test_analysis.py`: Unit tests using `pytest` for validating analysis functions.
+* `clusteringTA/`:
+    * `PCA_main_file.py`: Implementation of Z-score normalization, PCA, and Clustering.
+* `data/`: Contains raw and processed CSV files.
+
 - # Tech Stack
 Language: Python
-Libraries: Pandas, NumPy, Scikit-Learn, Matplotlib, Seaborn
+Libraries: Pandas, NumPy, Scikit-Learn, Matplotlib, Seaborn, Pytest.
 
-🚀 How to Run
-Install requirements: pip install -r requirements.txt
-
-Run the main script or Jupyter Notebook.
+## How to Run
+1. **Install requirements:** pip install -r requirements.txt
+2.  **Run main:** python Main.py
+    - note - for MAC OS: python3 Main.py
+3.  **Run unit tests:** pytest analysis/test_analysis.py
 
 **Created by: Tamar Kan, Alon Hillel, Or Galifat and Roni Itay | Neuroscience, Bar-Ilan University**
