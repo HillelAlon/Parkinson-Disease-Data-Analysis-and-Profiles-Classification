@@ -5,3 +5,4 @@ matplotlib~=3.10.8
 seaborn~=0.13.2
 ipython~=9.9.0
 IPython.display
+scipy~=1.17.0
