@@ -1,25 +1,27 @@
 import pytest
 import pandas as pd
 import numpy as np
+import os
 import matplotlib.pyplot as plt
 from unittest.mock import patch
 
-# Importing your functions (Assumes your file is named 'main_analysis.py')
-from analysis_logic import (
-    extract_sick_population, 
-    run_poisson_analysis, 
-    run_gatekeeper_analysis,
-    plot_disease_roadmap,
+# Importing the 7 analysis functions 
+from functions_analysis import (
+    load_dataset,
+    plot_global_heatmap,
+    plot_feature_profile, 
+    extract_sick_population,
+    plot_sick_population_heatmap,
+    plot_severity_distributions,
     analyze_metric_dissociation
 )
 
 # --- TEST FIXTURE ---
-# This creates a small "fake" dataset for testing purposes
 @pytest.fixture
 def sample_data():
-    """Generates a synthetic dataset to test analysis functions."""
+    """Generates a synthetic dataset for clinical analysis testing."""
     np.random.seed(42)
-    n_samples = 150
+    n_samples = 50
     data = pd.DataFrame({
         'PatientID': range(n_samples),
         'Age': np.random.randint(50, 90, n_samples),
@@ -28,77 +30,41 @@ def sample_data():
         'MoCA': np.random.uniform(5, 30, n_samples),
         'FunctionalAssessment': np.random.uniform(0, 10, n_samples),
         'Tremor': np.random.choice([0, 1], n_samples),
-        'Rigidity': np.random.choice([0, 1], n_samples),
-        'Bradykinesia': np.random.choice([0, 1], n_samples),
-        'PosturalInstability': np.random.choice([0, 1], n_samples),
-        'SpeechProblems': np.random.choice([0, 1], n_samples),
-        'SleepDisorders': np.random.choice([0, 1], n_samples),
-        'Constipation': np.random.choice([0, 1], n_samples)
+        'Rigidity': np.random.choice([0, 1], n_samples)
     })
+    data.set_index('PatientID', inplace=True)
     return data
+
+@pytest.fixture
+def temp_results_dir(tmp_path):
+    """Temporary directory for test plot exports."""
+    d = tmp_path / "results"
+    d.mkdir()
+    return str(d)
 
 # --- UNIT TESTS ---
 
 def test_extract_sick_population(sample_data):
-    """Verifies that only patients with Diagnosis == 1 are kept."""
-    sick_df = extract_sick_population(sample_data)
-    
-    # Check 1: All patients in result must be sick
-    assert all(sick_df['Diagnosis'] == 1), "Found healthy patients in sick_df"
-    
-    # Check 2: The filtered dataframe should not be empty
-    assert len(sick_df) > 0, "Filtered population is empty"
-    
-    # Check 3: Check if core columns still exist
-    assert 'UPDRS' in sick_df.columns
+    """Verifies population filtering logic."""
+    sick_df = extract_sick_population(sample_data, 'Diagnosis', 1)
+    assert all(sick_df['Diagnosis'] == 1)
+    assert len(sick_df) == (sample_data['Diagnosis'] == 1).sum()
 
-@patch("matplotlib.pyplot.show") # This prevents actual plots from popping up during tests
-def test_visual_functions(mock_show, sample_data):
-    """Ensures that visual analysis functions run without crashing (Smoke Test)."""
-    sick_df = extract_sick_population(sample_data)
-    
-    # Test if Dissociation Analysis runs
-    analyze_metric_dissociation(sick_df)
-    
-    # Test if Poisson Analysis runs
-    run_poisson_analysis(sick_df)
-    
-    # Test if Gatekeeper Analysis runs
-    run_gatekeeper_analysis(sick_df)
-    
-    # Test if Disease Roadmap runs
-    plot_disease_roadmap(sick_df)
-    
-    # Verify that 'show' was called by the plotting functions
-    assert mock_show.called
+@patch("matplotlib.pyplot.savefig")
+def test_visual_functions_smoke(mock_save, sample_data, temp_results_dir):
+    """Ensures all visual functions run with the corrected names."""
+    diagnosis_col = 'Diagnosis'
+    metrics = ['UPDRS', 'MoCA']
+    sick_df = extract_sick_population(sample_data, diagnosis_col, 1)
 
-def test_poisson_logic(sample_data):
-    """Validates the mathematical calculation of SymptomCount."""
-    sick_df = extract_sick_population(sample_data)
-    run_poisson_analysis(sick_df)
-    
-    # Check if the new column was successfully created
-    assert 'SymptomCount' in sick_df.columns
-    
-    # Check if counts are within a valid range (0 to 7 symptoms)
-    assert sick_df['SymptomCount'].max() <= 7
-    assert sick_df['SymptomCount'].min() >= 0
+    # Calling the corrected function name
+    plot_global_heatmap(sample_data, temp_results_dir)
+    plot_feature_profile(sample_data, diagnosis_col, temp_results_dir)
+    plot_sick_population_heatmap(sick_df, diagnosis_col, temp_results_dir)
+    plot_severity_distributions(sick_df, metrics, temp_results_dir)
+    analyze_metric_dissociation(sick_df, metrics, temp_results_dir)
 
-def test_gatekeeper_impact_calculation(sample_data):
-    """Tests if the gatekeeper logic produces valid numeric impact values."""
-    # 1. Generating the filtered sick population from mock data
-    # We name the variable 'sick_df' here
-    sick_df = extract_sick_population(sample_data)
-    
-    s = 'Tremor'
-    others = ['Rigidity', 'Bradykinesia', 'PosturalInstability']
-    
-    # 2. Calculating the impact manually to verify the logic
-    # FIX: We must use 'sick_df' consistently throughout the function
-    mean_with = sick_df[sick_df[s] == 1][others].sum(axis=1).mean()
-    mean_without = sick_df[sick_df[s] == 0][others].sum(axis=1).mean()
-    impact = mean_with - mean_without
-    
-    # 3. Verify the result is a valid number and not NaN (Not a Number)
-    assert not np.isnan(impact), "Impact calculation returned NaN"
+    assert mock_save.called
+    # We expect at least 6 saves (1 global, 1 profile, 1 sick heatmap, 1 dist, 2 dissociation)
+    assert mock_save.call_count >= 6
     
