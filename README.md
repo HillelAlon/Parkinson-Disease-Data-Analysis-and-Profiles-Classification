@@ -20,9 +20,22 @@ The project consists of several core analyses:
 
  # Methodology
 1. **Data cleaning** - convert PatientID to Index, Remove Irrelevant Columns, Remove Duplicates, Save Cleaned Data
-2.  **Analysis:** Generating correlation heatmaps and identifying risk/protective lifestyle factors.
-    - **Poisson Analysis:** Proving that symptoms aggregate biologically rather than randomly.
-    - **Gatekeeper Analysis:** Identifying symptoms that influence the overall disease burden.
+2.  **Analysis:** Global Screening: Establishing a baseline across all 2,105 subjects to prevent statistical bias.
+
+    Diagnosis "Zoom-In": Identifying hidden lifestyle markers that emerge only when isolating the diagnosis variable.
+
+    Intra-Cohort Analysis: Uncovering high-resolution correlations specific to the pathological state of the diseased population.
+
+    Metric Dissociation: Testing the three severity scales to prove motor, cognitive, and functional decline are independent pathways.
+
+    Domain-Specific Influencers: Analyzing factors that selectively worsen or improve one severity metric without affecting others.
+
+    **Advanced Bonus Modules:**
+
+    Symptom Aggregation (Poisson): Proving that symptoms cluster biologically rather than appearing as independent random noise.
+
+    Heterogeneity Validation: Confirming the absence of a "leader" symptom, reinforcing that disease progression is unique to each patient.
+
 3.  **Clustering**
     - **Normalization:** Scaling data using Z-Scores.
     - **PCA:** Reducing 12 variables into 3 Principal Components (capturing >70% variance).
@@ -31,6 +44,9 @@ The project consists of several core analyses:
 
 # Key Findings 
 - A synthetic data is not always realistic :(
+- Metric Dissociation: Clinical evidence suggests that motor (UPDRS) and cognitive (MoCA) declines progress as independent pathways, highlighting the need for multi-domain treatment.
+
+- Symptom Logic: Poisson analysis confirmed that symptoms are biologically clustered rather than appearing randomly.
 
 ## Data Description
 The dataset contains 2,105 patient records with features including:
@@ -42,7 +58,8 @@ The dataset contains 2,105 patient records with features including:
 * `cleaning_data/`: 
     * `data_cleaning.py`: Functions for data loading, validation, and preprocessing.
 * `analysis/`:
-    * `analysis_logic.py`: Core logic for statistical tests, Poisson distribution, and disease trajectories.
+    * `functios_analysis.py`: 7-stage clinical research logic and visualizations.
+    * `bonus_analysis.py`: Poisson distribution and Gatekeeper analysis.
     * `test_analysis.py`: Unit tests using `pytest` for validating analysis functions.
 * `clusteringTA/`:
     * `PCA_main_file.py`: Implementation of Z-score normalization, PCA, and Clustering.
