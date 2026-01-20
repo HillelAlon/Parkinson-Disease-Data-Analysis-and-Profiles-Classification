@@ -4,12 +4,22 @@ This project investigates comprehensive health information for 2,105 patients to
 
 ## Project Overview
 This research explores the relationships between lifestyle choices, clinical characteristics, and disease severity. 
-**Hypothesis:** Patients can be categorized into distinct phenotypes based on clinical and lifestyle data, and these groups show different trajectories of physical and cognitive decline.
+**Hypothesis:** 
+Patients can be categorized into distinct phenotypes based on clinical and lifestyle data, and these groups show different trajectories of physical and cognitive decline.
+
+### Scientific Rationale
+Parkinson’s Disease (PD) is increasingly recognized as a highly heterogeneous multisystem disorder rather than a single clinical entity. Patients exhibit vast differences in their non-motor symptoms, progression rates, and response to treatment. Recent research suggests that this clinical diversity is rooted in distinct pathophysiological pathways, leading to the identification of multiple disease phenotypes (Fereshtehnejad et al., 2015).
+
+### Research Hypothesis
+Our project is built on the hypothesis that **Parkinson’s is a unique experience for each individual.** We propose that patients can be categorized into distinct clinical phenotypes based on their specific lifestyle and clinical profiles. Furthermore, we hypothesize that these groups follow **independent (dissociated) trajectories** of physical, cognitive, and functional decline, meaning that a patient's progression in one domain (e.g., motor) does not necessarily predict their status in another (e.g., cognitive).
+
+### Metric Dissociation Logic
+This study specifically tests the **Metric Dissociation Hypothesis**. By analyzing the lack of linear correlation between UPDRS (motor severity), MoCA (cognitive score), and Functional Assessment scores, we aim to provide data-driven evidence for the heterogeneous nature of the disease, supporting the transition toward personalized medicine in PD care.
 **link for gitHub:** https://github.com/HillelAlon/Parkinson-Disease-Data-Analysis-and-Profiles-Classification
-**Link for slides:** [Project Presentation](https://docs.google.com/presentation/d/1nOysAlVYcGIlKAsOH9k4TYhBiuq9o8w6vciK3Ff_9Ow/edit?slide=id.g3b572de3954_2_103#slide=id.g3b572de3954_2_103).
+**Link for slides:** [Project Presentation](https://docs.google.com/presentation/d/  
+**link for supporting academic paper** Title: New Clinical Subtypes of Parkinson Disease and Their Longitudinal Progression: A Prospective Cohort Comparison With Other Phenotypes Link: https://pubmed.ncbi.nlm.nih.gov/26076039/
 
-
- # Research Goal
+# Research Goal
 To use machine learning (K-Means) and dimensionality reduction (PCA) to group patients into 4 distinct clusters, enabling a more personalized approach to wellness and treatment strategies.
 The overarching goal of this study was to identify key factors influencing patient health and to categorize patients into meaningful subgroups for personalized care.
 
