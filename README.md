@@ -50,7 +50,8 @@ The project consists of several core analyses:
     - **Normalization:** Scaling data using Z-Scores.
     - **PCA:** Reducing 12 variables into 3 Principal Components (capturing >70% variance).
     - **K-Means:** Grouping patients into 4 profiles using the Elbow Method.
-4.  **Visualization:** 3D plotting of clusters, standardized heatmaps, and disease progression roadmaps (Physical vs. Cognitive trajectories).
+    - **Visualization:** 3D plotting of clusters, heatmaps of clusters.
+    - **Statistical Test** We choose to make an one-way ANOVA test for Clusters per Assessment.
 
 # Key Findings 
 - A synthetic data is not always realistic :(
