@@ -61,8 +61,14 @@ The project consists of several core analyses:
 
 ## Data Description
 The dataset contains 2,105 patient records with features including:
-- **Lifestyle:** Diet Quality, Physical Activity, Sleep Quality, BMI.
-- **Clinical:** UPDRS (Physical severity), MoCA (Cognitive score), and specific symptoms like Tremor and Rigidity.
+- Patient ID
+- **Demographic Details:** Age, Gender, Ethnicity, EducationLevel
+- **Lifestyle Factors:** BMI, Smoking, Alcohol Consumption, Physical Activity, Diet Quality,Sleep Quality
+- **Medical History** (presence of): Traumatic Brain Injury, Hypertension, Diabetes, Depression, Stroke. 
+- **Clinical Measurements:** Systolic BP, DiastolicBP, Cholesterol Total, Cholesterol LDL, Cholesterol HDL, Cholesterol Triglycerides.
+- **Cognitive and Functional Assessments:** Unified Parkinson's Disease Rating Scale, Montreal Cognitive Assessment, Functional assessment score
+- **Symptoms:** Presence of tremor, Presence of muscle rigidity, Slowness of movement, Stability/balance issues, Presence of speech problems, Presence of sleep disorders, Presence of constipation.
+- **Diagnosis Information:** Parkinson's Disease diagnosis status
 
 ## Folder Structure
 * `Main.py`: The central entry point for running the cleaning and analysis pipeline.
