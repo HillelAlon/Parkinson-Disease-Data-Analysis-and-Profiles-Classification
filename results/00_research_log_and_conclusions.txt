@@ -1,0 +1,44 @@
+=== PARKINSON'S RESEARCH PROJECT: AUTOMATED SUMMARY ===
+Hypothesis: Parkinson's symptoms follow unique, dissociated trajectories per patient.
+
+[Step 1] Cleaning Raw Data...
+
+[Step 2] Executing Clinical Analysis Pipeline...
+Generating masked global correlation heatmap.
+Global heatmap saved to: /home/roni/final_project_roni/Parkinson-Disease-Data-Analysis-and-Profiles-Classification/results/01_global_heatmap.png
+Generating correlation profile for: Diagnosis
+Filtered 1304 diagnosed patients.
+Generating masked internal heatmap for sick population.
+Sick population heatmap saved to: /home/roni/final_project_roni/Parkinson-Disease-Data-Analysis-and-Profiles-Classification/results/03_sick_population_heatmap.png
+Plotting distributions for: ['UPDRS', 'MoCA', 'FunctionalAssessment']
+Executing clinical metric dissociation analysis.
+
+[Step 3] Running PCA & Unsupervised Clustering...
+Dataset loaded successfully. Shape: (1304, 12)
+Feature scaling complete: Data transformed into Z-scores.
+PCA completed. Dimensionality reduced to 3. Total Variance: 28.39%
+Variance Breakdown - PC1: 9.89%, PC2: 9.42%, PC3: 9.08%
+Clustering Complete. Patients per Profile:
+
+Cluster
+3    340
+0    328
+1    327
+2    309
+Name: count, dtype: int64
+Profiles summarized and exported to CSV.
+
+[Step 4] Statistical Cluster Validation (ANOVA Results):
+Running Statistical Validation (Alpha=0.2)
+UPDRS -> F-stat: nan, P-value: nan
+MoCA -> F-stat: nan, P-value: nan
+FunctionalAssessment -> F-stat: nan, P-value: nan
+Statistical Analysis cycle complete.
+
+[Step 5] Advanced Research Modules...
+Running Poisson Distribution analysis.
+Poisson analysis plot saved to: /home/roni/final_project_roni/Parkinson-Disease-Data-Analysis-and-Profiles-Classification/results/bonus_01_poisson_distribution.png
+Executing Gatekeeper Analysis (Tremor Paradox).
+Gatekeeper analysis plot saved to: /home/roni/final_project_roni/Parkinson-Disease-Data-Analysis-and-Profiles-Classification/results/bonus_02_gatekeeper_analysis.png
+
+=== PIPELINE COMPLETE: ALL FINDINGS SAVED IN RESULTS FOLDER ===
