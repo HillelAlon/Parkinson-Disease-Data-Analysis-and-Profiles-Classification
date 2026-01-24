@@ -1,6 +1,5 @@
-import logging
-
 # Setup and Logging
+import logging
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import StandardScaler
@@ -11,6 +10,23 @@ import seaborn as sns
 from scipy.stats import f_oneway
 from scipy.stats import ttest_ind
 from math import comb
+
+# def cleand df to pca
+def cleand_df_to_pca(cleand_data_path):
+    df = pd.read_csv(cleand_data_path)
+    # Keep only the sick patients in the data frame.
+    df = df[df['Diagnosis'] != 0]
+    # Keep only age, lifestyle and clinical measurements categories
+    bool_cols_to_drop = [col for col in df.columns if len(set(df[col].unique())) < 5] #Remove boolean and categorical columns
+    df = df.drop(columns=bool_cols_to_drop)
+    df = df.drop(columns=["PatientID","UPDRS", "MoCA", "FunctionalAssessment"]) #Remove categories: ID and assessments
+    df.to_csv("../data/parkinsons_lifestyle_clinical_for_PCA.csv",index=True)
+
+
+# Execution
+cleand_data_path = "../data/parkinsons_cleaned.csv"
+cleand_df_to_pca(cleand_data_path)
+
 
 # Professional logging setup as per project requirements
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -301,18 +317,15 @@ def cluster_heat_map(df_pca,cluster_profiles):
 cluster_heat_map(df_pca,cluster_profiles)
 
 # Differences between Clusters per Assessment
-def clusters_per_assessment(new_path,our_p_value,df_pca):
+def clusters_per_assessment(new_path,df_pca,):
     df = pd.read_csv(new_path)
-
+    #Change the index to ID.
+    df.index = df["PatientID"]
     # Keep only the sick patients in the data frame.
     df = df[df['Diagnosis'] != 0]
 
-    # Keep only age, lifestyle and clinical measurements categories
-    bool_cols_to_drop = [col for col in df.columns if len(set(df[col].unique())) < 5] #Remove boolean and categorical columns
-    df = df.drop(columns=bool_cols_to_drop)
-    df = df.drop(columns=["PatientID"]) #Remove ID
-
     # Here We are doing the statistical test
+    our_p_value = 0.20
     print(f"One-way analysis of variance\nH0: Samples in all groups are drawn from populations with the same mean values.\n Our critical P-value (alpha): {our_p_value}\n(We teke this p_value because the data is synthetic...)\n")
 
     for assessment in ["UPDRS", "MoCA", "FunctionalAssessment"]:
@@ -340,8 +353,7 @@ def clusters_per_assessment(new_path,our_p_value,df_pca):
             print("\n")
     logger.info("One way analysis of variance complete.")
 
-# Execution
-new_path = "../data/parkinsons_cleaned.csv"
-our_p_value = 0.2
-clusters_per_assessment(new_path,our_p_value,df_pca)
 
+# Execution
+another_path = "../data/parkinsons_cleaned.csv"
+clusters_per_assessment(another_path,df_pca)
