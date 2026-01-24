@@ -21,7 +21,7 @@ def load_dataset(path):
         return None
 
 # Execution
-path = '../data/parkinsons_cleaned.csv'
+path = 'data/parkinsons_cleaned.csv'
 df = load_dataset(path)
 
 
