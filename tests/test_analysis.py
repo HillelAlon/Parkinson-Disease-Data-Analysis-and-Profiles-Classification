@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from unittest.mock import patch
 
 # Importing the analysis functions from both scripts
-from functions_analysis import (
+from analysis.functions_analysis import (
     load_dataset,
     plot_global_heatmap,
     plot_feature_profile, 
@@ -15,7 +15,7 @@ from functions_analysis import (
     plot_severity_distributions,
     analyze_metric_dissociation
 )
-from pca_functions import (
+from clusteringTA.pca_functions import (
     cleand_df_to_pca,
     standardize,
     our_pca,
