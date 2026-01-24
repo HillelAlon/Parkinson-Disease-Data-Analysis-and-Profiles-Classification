@@ -224,7 +224,7 @@ def cluster_profile(df_pca,df_pca_output):
     print("Profiles for each Cluster (Mean Values):")
 
     # 4. Save the results to a CSV file to use in your presentation slides
-    cluster_profiles.to_csv("patient_profiles_summary.csv")
+    cluster_profiles.to_csv("../data/patient_profiles_summary.csv")
     logger.info("Cluster profiling complete. Summary saved to CSV.")
 
     return cluster_profiles
