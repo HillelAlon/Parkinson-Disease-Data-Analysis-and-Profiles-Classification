@@ -32,7 +32,7 @@ print(df_clean.head())
 
 
 """
-[Step 2] Executing Clinical Analysis Pipeline
+[Step 2] Clinical Analysis Pipeline
 """
 #1 load dataset
 cleand_data_path = "data/parkinsons_cleaned.csv"
