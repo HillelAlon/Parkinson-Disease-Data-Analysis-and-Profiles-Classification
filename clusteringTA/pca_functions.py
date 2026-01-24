@@ -52,7 +52,7 @@ def standardize(data):
 
 #  Dimensionality Reduction (PCA)
 #PCA function
-def our_pca(scaled_data):
+def our_pca(scaled_data,df_pca):
     # 1. Define the PCA model to reduce data into 3 components
     pca = PCA(n_components=3)
     # 2. Run the PCA on our standardized data
@@ -105,7 +105,7 @@ def variance_analysis(scaled_data,threshold):
 
 
 # Scree Plot & Cumulative Variance
-def scree_plot(scaled_data,threshold):
+def scree_plot(scaled_data,threshold,total_variance):
     # 1. Run PCA without limiting the number of components to see the full picture
     full_pca = PCA().fit(scaled_data)
     cumulative_variance = np.cumsum(full_pca.explained_variance_ratio_)
@@ -157,7 +157,7 @@ def clusters_plot(df_pca_output):
 
 
 # The Elbow Method
-def elbow_method(df_pca_output):
+def elbow_method(df_pca_output,pca_results):
     # 1. Calculate inertia for different numbers of clusters
     inertia = []
     K_range = range(1, 11) # Checking from 1 to 10 clusters
@@ -182,7 +182,7 @@ def elbow_method(df_pca_output):
 
 
 # K-Means Clustering
-def k_means_clustering(df_pca_output):
+def k_means_clustering(df_pca_output,pca_results):
     # 1. Initialize the KMeans model
     # We choose 4 clusters to look for 4 distinct patient profiles
     kmeans = KMeans(n_clusters=4, random_state=42)
@@ -261,14 +261,12 @@ def cluster_heat_map(df_pca,cluster_profiles):
 # Differences between Clusters per Assessment
 def clusters_per_assessment(new_path,df_pca,):
     df = pd.read_csv(new_path)
-    #Change the index to ID.
-    df.index = df["PatientID"]
     # Keep only the sick patients in the data frame.
     df = df[df['Diagnosis'] != 0]
 
     # Here We are doing the statistical test
     our_p_value = 0.20
-    print(f"One-way analysis of variance\nH0: Samples in all groups are drawn from populations with the same mean values.\n Our critical P-value (alpha): {our_p_value}\n(We teke this p_value because the data is synthetic...)\n")
+    print(f"One-way analysis of variance\nH0: Samples in all groups are drawn from populations with the same mean values.\n Our critical P-value (alpha): {our_p_value}\n(We took this p_value because the data is synthetic...)\n")
 
     for assessment in ["UPDRS", "MoCA", "FunctionalAssessment"]:
         df_corr = pd.concat([df_pca['Cluster'], df[assessment]], axis=1)
@@ -294,4 +292,3 @@ def clusters_per_assessment(new_path,df_pca,):
                     print(f"Significant!")
             print("\n")
     logger.info("One way analysis of variance complete.")
-
