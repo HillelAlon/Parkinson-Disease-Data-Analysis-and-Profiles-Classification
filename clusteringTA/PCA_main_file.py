@@ -1,15 +1,15 @@
-import pandas as pd
 import logging
+# Professional logging setup as per project requirements
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+logger.info("Environment setup complete. Libraries imported.")
+
 from clusteringTA.pca_functions import *
 
-# Make a new df without nominal and ordinal columns.
+#1 Make a new df without nominal and ordinal columns.
 cleand_data_path = "../data/parkinsons_cleaned.csv"
-cleand_df_to_pca(cleand_data_path)
+df_pca = cleand_df_to_pca(cleand_data_path)
 
-
-#1 Data and loading
-path = '../data/parkinsons_lifestyle_clinical_for_PCA.csv'
-df_pca = load_dataset(path)
 
 #2. Transformation the df to Z-Scores values.
 if df_pca is not None:
@@ -32,5 +32,4 @@ cluster_profiles = cluster_profile(df_pca,df_pca_output)
 cluster_heat_map(df_pca,cluster_profiles)
 
 #5. Compare between the clustering (Age, Lifestyle and Clinical Measures) and every assessment (UPDRS,MoCA,FunctionalAssessment).
-another_path = "../data/parkinsons_cleaned.csv"
-clusters_per_assessment(another_path,df_pca)
+clusters_per_assessment(cleand_data_path,df_pca)

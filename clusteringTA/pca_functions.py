@@ -11,6 +11,11 @@ from scipy.stats import f_oneway
 from scipy.stats import ttest_ind
 from math import comb
 
+# Professional logging setup as per project requirements
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+logger.info("Environment setup complete. Libraries imported.")
+
 # def cleand df to pca
 def cleand_df_to_pca(cleand_data_path):
     df = pd.read_csv(cleand_data_path)
@@ -21,17 +26,7 @@ def cleand_df_to_pca(cleand_data_path):
     df = df.drop(columns=bool_cols_to_drop)
     df = df.drop(columns=["PatientID","UPDRS", "MoCA", "FunctionalAssessment"]) #Remove categories: ID and assessments
     df.to_csv("../data/parkinsons_lifestyle_clinical_for_PCA.csv",index=True)
-
-
-# Execution
-cleand_data_path = "../data/parkinsons_cleaned.csv"
-cleand_df_to_pca(cleand_data_path)
-
-
-# Professional logging setup as per project requirements
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-logger = logging.getLogger(__name__)
-logger.info("Environment setup complete. Libraries imported.")
+    return df
 
 
 #  Data Loading
@@ -45,11 +40,6 @@ def load_dataset(path = str):
         logger.error("Dataset file not found. Please check the file path.")
         return None
 
-# Execution
-path = '../data/parkinsons_lifestyle_clinical_for_PCA.csv'
-df_pca = load_dataset(path)
-
-
 # Feature Scaling (Standardization)
 # PCA is scale-sensitive, so we must transform features to a common scale (Z-scores)
 def standardize(data):
@@ -59,11 +49,6 @@ def standardize(data):
     print(scaled_data)
     print(scaled_data.shape)
     return scaled_data
-
-# Execution
-if df_pca is not None:
-    scaled_data = standardize(df_pca)
-
 
 #  Dimensionality Reduction (PCA)
 #PCA function
@@ -83,10 +68,6 @@ def our_pca(scaled_data):
     logger.info(f"PCA execution finished. Features reduced from {df_pca.shape[1]} to 3 components.")
     return pca,df_pca_output,pca_results
 
-# Execution
-if scaled_data is not None:
-    pca,df_pca_output,pca_results = our_pca(scaled_data)
-
 # Explained Variance Analysis (Validation)
 def explained_variance_analysis(pca):
     # 1. Get the percentage of variance explained by each of the 3 components
@@ -104,21 +85,14 @@ def explained_variance_analysis(pca):
         logger.warning("Validation Note: Captured variance is below 70%. We might need to consider more components later.")
     return total_variance
 
-# Execution
-total_variance = explained_variance_analysis(pca)
-
-
 
 def variance_analysis(scaled_data,threshold):
     # Check how many components are needed to reach 70% variance
     full_pca = PCA().fit(scaled_data)
     cumulative_variance = np.cumsum(full_pca.explained_variance_ratio_)
-
     # Finding the number of components for the threshold
     n_threshold = np.where(cumulative_variance >= threshold)[0][0] + 1
-
     logger.info(f"To explain {threshold} of the variance, we would need {n_threshold} components.")
-
     # Plotting the "Scree Plot"
     plt.figure(figsize=(8, 5))
     plt.plot(range(1, len(cumulative_variance) + 1), cumulative_variance, marker='o', linestyle='--')
@@ -128,10 +102,6 @@ def variance_analysis(scaled_data,threshold):
     plt.ylabel('Cumulative Explained Variance')
     plt.grid()
     plt.show()
-
-# Execution
-threshold = 0.7
-variance_analysis(scaled_data,threshold)
 
 
 # Scree Plot & Cumulative Variance
@@ -149,7 +119,6 @@ def scree_plot(scaled_data,threshold):
     plt.plot(range(1, len(cumulative_variance) + 1), cumulative_variance, marker='o', linestyle='--', color='b')
     plt.axhline(y=threshold, color='r', linestyle='-', label='70% Threshold')
     plt.axhline(y=total_variance, color='g', linestyle='--', label='Current 3 Components')
-
     plt.title('Scree Plot: How much information are we capturing?')
     plt.xlabel('Number of Principal Components')
     plt.ylabel('Cumulative Explained Variance')
@@ -157,9 +126,6 @@ def scree_plot(scaled_data,threshold):
     plt.grid(True, alpha=0.3)
     plt.show()
 
-# Execution
-threshold = 0.7
-scree_plot(scaled_data,threshold)
 
 # 3D Visualization of Patient Profiles
 def clusters_plot(df_pca_output):
@@ -185,14 +151,9 @@ def clusters_plot(df_pca_output):
 
     # 4. Add a color bar
     plt.colorbar(sc, label='PC1 Gradient')
-
     plt.tight_layout()
     plt.show()
-
     logger.info("3D Visualization created using Matplotlib.")
-
-# Execution
-clusters_plot(df_pca_output)
 
 
 # The Elbow Method
@@ -217,11 +178,7 @@ def elbow_method(df_pca_output):
 
     # Highlight the "Elbow"
     plt.show()
-
     logger.info("Elbow Method analysis completed.")
-
-# Execution
-elbow_method(df_pca_output)
 
 
 # K-Means Clustering
@@ -240,14 +197,10 @@ def k_means_clustering(df_pca_output):
     print(df_pca_output['Cluster'].value_counts())
     return df_pca_output
 
-# Execution
-k_means_clustering(df_pca_output)
 
 def clusters_3d_plot(df_pca_output):
-
     fig = plt.figure(figsize=(10, 8))
     ax = fig.add_subplot(111, projection='3d')
-
     # Color the points by their Cluster ID (0, 1, 2)
     scatter = ax.scatter(df_pca_output['PC1'],
                          df_pca_output['PC2'],
@@ -265,14 +218,8 @@ def clusters_3d_plot(df_pca_output):
     # Add a legend to show which color is which Cluster
     legend1 = ax.legend(*scatter.legend_elements(), title="Clusters")
     ax.add_artist(legend1)
-
     plt.show()
-
     logger.info("3D Cluster Visualization created successfully.")
-
-# Execution
-clusters_3d_plot(df_pca_output)
-
 
 
 
@@ -293,9 +240,6 @@ def cluster_profile(df_pca,df_pca_output):
 
     return cluster_profiles
 
-# Execution
-cluster_profiles = cluster_profile(df_pca,df_pca_output)
-
 
 # Creation of a Heat map for clusters
 def cluster_heat_map(df_pca,cluster_profiles):
@@ -313,8 +257,6 @@ def cluster_heat_map(df_pca,cluster_profiles):
 
     logger.info("Visual profile summary created.")
 
-# Execution
-cluster_heat_map(df_pca,cluster_profiles)
 
 # Differences between Clusters per Assessment
 def clusters_per_assessment(new_path,df_pca,):
@@ -353,7 +295,3 @@ def clusters_per_assessment(new_path,df_pca,):
             print("\n")
     logger.info("One way analysis of variance complete.")
 
-
-# Execution
-another_path = "../data/parkinsons_cleaned.csv"
-clusters_per_assessment(another_path,df_pca)
