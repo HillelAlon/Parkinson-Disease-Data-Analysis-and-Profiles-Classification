@@ -3,21 +3,25 @@
 Hypothesis: Parkinson's symptoms follow unique, dissociated trajectories per patient.
 """
 
-# import logger + config levet to info
+
+# Create Logger
 import logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s - %(message)s')
+
+#Import all functions
+from cleaning_data.data_cleaning import load_and_clean_data
+from analysis_logic import *
+from clustering_functions import *
 
 
 """
 [Step 1] Cleaning Raw Data
 """
-#import load and cleaning function
-from cleaning_data.data_cleaning import load_and_clean_data
+#Raw cleaning function
 file_path = 'data/parkinsons_disease_data.csv'
 index_col = 'PatientID'
 columns_to_drop = ['DoctorInCharge']
 output_file = 'data/parkinsons_cleaned.csv'
-
 # ---Cleaning data function ---
     #GET - csv file, string that represent index column, list of irrelevant Columns.
     #CHECKS - if all the inputs are right type. ELSE - value error
@@ -30,8 +34,6 @@ print(df_clean.head())
 """
 [Step 2] Executing Clinical Analysis Pipeline
 """
-from analysis_logic import *
-
 #1 load dataset
 cleand_data_path = "data/parkinsons_cleaned.csv"
 df = load_dataset(cleand_data_path)
@@ -65,8 +67,6 @@ else:
 """
 [Step 3] Running PCA & Unsupervised Clustering...
 """
-from clustering_functions import *
-
 #1 Make a new df without nominal and ordinal columns.
 df_pca = cleand_df_to_pca(cleand_data_path)
 
@@ -101,4 +101,11 @@ clusters_per_assessment(cleand_data_path,df_pca)
 """
 [Step 5] Advanced Research Modules (bonus)
 """
-#roni!!
+
+#1 poisson_analysis
+if 'sick_df' in locals():
+    run_poisson_analysis(sick_df)
+
+#2 gatekeeper_analysis
+if 'sick_df' in locals():
+    run_gatekeeper_analysis(sick_df)

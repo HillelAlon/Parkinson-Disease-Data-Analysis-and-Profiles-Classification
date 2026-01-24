@@ -179,3 +179,49 @@ def analyze_metric_dissociation(data):
                 annot=True, cmap='YlGnBu')
     plt.title('Absolute Impact Comparison (Physical vs Cognitive vs Functional)')
     plt.show()
+
+
+def run_poisson_analysis(data):
+    """
+    Compares actual symptom clustering against a random Poisson model.
+    """
+    logger.info("Running Poisson Distribution analysis.")
+    symptom_list = ['Tremor', 'Rigidity', 'Bradykinesia', 'PosturalInstability',
+                    'SpeechProblems', 'SleepDisorders', 'Constipation']
+
+    data['SymptomCount'] = data[symptom_list].sum(axis=1)
+    mu = data['SymptomCount'].mean()
+
+    # Calculate distributions
+    actual = data['SymptomCount'].value_counts(normalize=True).sort_index()
+    theoretical = [poisson.pmf(k, mu) for k in range(len(actual))]
+
+    plt.figure(figsize=(10, 6))
+    plt.bar(actual.index, actual.values, alpha=0.5, label='Observed Data', color='grey')
+    plt.plot(actual.index, theoretical, 'ro-', linewidth=2, label='Poisson (Random Theory)')
+    plt.title(f'Symptom Aggregation vs Random Chance (Mean: {mu:.2f})')
+    plt.legend()
+    plt.show()
+
+
+def run_gatekeeper_analysis(data):
+    """
+    Identifies which symptoms correlate with a higher or lower overall symptom burden.
+    """
+    logger.info("Executing Gatekeeper Analysis (Tremor Paradox).")
+    symptoms = ['Tremor', 'Rigidity', 'Bradykinesia', 'PosturalInstability',
+                'SpeechProblems', 'SleepDisorders', 'Constipation']
+    results = []
+
+    for s in symptoms:
+        others = [sym for sym in symptoms if sym != s]
+        impact = data[data[s] == 1][others].sum(axis=1).mean() - data[data[s] == 0][others].sum(axis=1).mean()
+        results.append({'Symptom': s, 'Impact': impact})
+
+    impact_df = pd.DataFrame(results).sort_values(by='Impact')
+
+    plt.figure(figsize=(12, 6))
+    colors = ['#2ecc71' if x < 0 else '#e74c3c' for x in impact_df['Impact']]
+    sns.barplot(data=impact_df, x='Impact', y='Symptom', palette=colors)
+    plt.title('Gatekeeper Effect: Impact of specific symptoms on overall burden')
+    plt.show()
