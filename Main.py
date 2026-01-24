@@ -55,6 +55,10 @@ def main():
 if __name__ == "__main__":
     main()
 '''
+# import logger + config levet to info
+import logging
+logging.basicConfig(level=logging.INFO, format='%(levelname)s - %(message)s')
+
 #ORR - idk whats going on uphere. this part is mine :)
 #import liberys 
 
