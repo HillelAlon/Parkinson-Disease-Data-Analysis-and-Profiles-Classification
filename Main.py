@@ -1,67 +1,16 @@
-'''from src.data_loader import load_raw_data, clean_data_structure, prepare_for_modeling, save_data
+"""
+=== PARKINSON'S RESEARCH PROJECT ===
+Hypothesis: Parkinson's symptoms follow unique, dissociated trajectories per patient.
+"""
 
-def main():
-    # Pipeline
-    df = load_raw_data("data/parkinsons_disease_data.csv")
-    df_clean = clean_data_structure(df)
-    
-    # Save the ready-to-use data
-    df_ready = prepare_for_modeling(df_clean)
-    save_data(df_ready, "data/parkinsons_for_model.csv")
-    
-    print("Data Pipeline Completed!")
-
-if __name__ == "__main__":
-    main()
-
-
-import logging
-import os
-# Importing our modular functions
-from src.data_loader import load_raw_data, clean_data_structure
-from src.analysis import calculate_correlations, analyze_sick_severity
-from src.plotting import plot_correlation_heatmap, plot_correlation_bar, plot_severity_drivers
-
-def main():
-    # 1. Setup Logging (Professional alternative to print)
-    logging.basicConfig(level=logging.INFO, format='%(levelname)s: %(message)s')
-    
-    # 2. Data Loading & Cleaning Phase
-    # Path is relative to the root directory where main.py sits
-    data_path = os.path.join('data', 'parkinsons_disease_data.csv')
-    df_raw = load_raw_data(data_path)
-    df_clean = clean_data_structure(df_raw)
-    
-    logging.info("--- Starting Analysis Phase ---")
-
-    # 3. General Correlation Analysis (Risk vs Protective Factors)
-    # This calls the modular function that returns 3 items
-    matrix, risk_factors, protective_factors = calculate_correlations(df_clean)
-    
-    # Visualizing general correlations
-    plot_correlation_heatmap(matrix, title="General Clinical Correlations")
-    plot_correlation_bar(risk_factors, title="Top 10 Risk Factors", color_palette='Reds_r')
-    plot_correlation_bar(protective_factors, title="Top 5 Protective Factors", color_palette='Blues_r')
-
-    # 4. Disease Severity Analysis (Sick Patients Sub-group)
-    # Analyzing only patients with Diagnosis == 1
-    severity_drivers = analyze_sick_severity(df_clean)
-    
-    # Visualizing what drives UPDRS scores higher or lower
-    plot_severity_drivers(severity_drivers, title="Key Drivers of Parkinson's Severity (UPDRS)")
-
-    logging.info("--- Analysis Completed Successfully ---")
-
-if __name__ == "__main__":
-    main()
-'''
 # import logger + config levet to info
 import logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s - %(message)s')
 
-#ORR - idk whats going on uphere. this part is mine :)
-#import liberys 
 
+"""
+[Step 1] Cleaning Raw Data
+"""
 #import load and cleaning function
 from cleaning_data.data_cleaning import load_and_clean_data
 
@@ -70,13 +19,60 @@ index_col = 'PatientID'
 columns_to_drop = ['DoctorInCharge']
 output_file = 'data/parkinsons_cleaned.csv'
 
-'''---Cleaning data function ---
-    GET - csv file, string that represent index column, list of irrelevant Columns. 
-    CHECKS - if all the inputs are right type. ELSE - value error
-    RETURN - data frame without the irrelevant Columns, index column set as index column, without duplicates '''
+# ---Cleaning data function ---
+    #GET - csv file, string that represent index column, list of irrelevant Columns.
+    #CHECKS - if all the inputs are right type. ELSE - value error
+    #RETURN - data frame without the irrelevant Columns, index column set as index column, without duplicates
 
 df_clean = load_and_clean_data(file_path, index_col, columns_to_drop)
 df_clean.to_csv(output_file, index=True)
-
 print(df_clean.head())
-#ORR - up to here
+
+
+"""
+[Step 2] Executing Clinical Analysis Pipeline
+"""
+#roni!!
+
+
+"""
+[Step 3] Running PCA & Unsupervised Clustering...
+"""
+from clustering_functions import *
+
+#1 Make a new df without nominal and ordinal columns.
+cleand_data_path = "data/parkinsons_cleaned.csv"
+df_pca = cleand_df_to_pca(cleand_data_path)
+
+#2. Transformation the df to Z-Scores values.
+if df_pca is not None:
+    scaled_data = standardize(df_pca)
+
+#3. PCA: from 12D to new combined 3D. (sklearn.decomposition.PCA)
+if scaled_data is not None:
+    pca,df_pca_output,pca_results = our_pca(scaled_data,df_pca)
+total_variance = explained_variance_analysis(pca)
+threshold = 0.7
+variance_analysis(scaled_data,threshold)
+scree_plot(scaled_data,threshold, total_variance)
+clusters_plot(df_pca_output)
+
+#4. Clustering.
+elbow_method(df_pca_output,pca_results)
+k_means_clustering(df_pca_output,pca_results)
+clusters_3d_plot(df_pca_output)
+cluster_profiles = cluster_profile(df_pca,df_pca_output)
+cluster_heat_map(df_pca,cluster_profiles)
+
+
+"""
+[Step 4] Statistical Cluster Validation (ANOVA Results):
+"""
+#5. Compare between the clustering (Age, Lifestyle and Clinical Measures) and every assessment (UPDRS,MoCA,FunctionalAssessment).
+clusters_per_assessment(cleand_data_path,df_pca)
+
+
+"""
+[Step 5] Advanced Research Modules...
+"""
+#roni!!
