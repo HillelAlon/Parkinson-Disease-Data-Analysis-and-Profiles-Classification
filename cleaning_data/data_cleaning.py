@@ -1,5 +1,9 @@
 #Imports libraries 
 import pandas as pd
+import logging
+
+# define logger
+logger = logging.getLogger(__name__)
 
 def load_and_clean_data(csv_path, index_col_name, cols_to_remove):
     """
@@ -36,7 +40,7 @@ def load_and_clean_data(csv_path, index_col_name, cols_to_remove):
         raise TypeError(f"index_col_name must be a string, got {type(index_col_name)}")
 
     # if all checks worked :)
-    print(f"Loading data from: {csv_path}...")
+    logger.info(f"Loading data from: {csv_path}...")
    
    #load and set index columns
     df = pd.read_csv(csv_path, index_col=index_col_name)
@@ -49,6 +53,6 @@ def load_and_clean_data(csv_path, index_col_name, cols_to_remove):
     df_clean = df_clean.drop_duplicates()
     dropped_rows = initial_rows - len(df_clean)
 
-    print(f"Successfully loaded. Dropped {dropped_rows} duplicates. Final shape: {df_clean.shape}")
+    logger.info(f"Successfully loaded. Dropped {dropped_rows} duplicates. Final shape: {df_clean.shape}")
     
     return df_clean
