@@ -16,7 +16,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 logger.info("Environment setup complete. Libraries imported.")
 
-# def cleand df to pca
+# Pre-processed: create  dataset specifically prepared for PCA
 def cleand_df_to_pca(cleand_data_path):
     df = pd.read_csv(cleand_data_path)
     # Keep only the sick patients in the data frame.
@@ -28,17 +28,6 @@ def cleand_df_to_pca(cleand_data_path):
     df.to_csv("../data/parkinsons_lifestyle_clinical_for_PCA.csv",index=True)
     return df
 
-
-#  Data Loading
-# Loading the pre-processed dataset specifically prepared for PCA
-def load_dataset(path = str):
-    try:
-        df_pca = pd.read_csv(path, index_col=0)
-        logger.info(f"Dataset loaded successfully. Shape: {df_pca.shape}")
-        return df_pca
-    except FileNotFoundError:
-        logger.error("Dataset file not found. Please check the file path.")
-        return None
 
 # Feature Scaling (Standardization)
 # PCA is scale-sensitive, so we must transform features to a common scale (Z-scores)
