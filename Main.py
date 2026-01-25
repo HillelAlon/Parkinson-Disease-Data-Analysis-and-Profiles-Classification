@@ -37,26 +37,26 @@ print(df_clean.head())
 #1 load dataset
 df = load_dataset(cleand_data_path)
 
-#2 plot_global_heatmap
+#2 plot_global_heatmap (Figure 1.1)
 if df is not None:
     plot_global_heatmap(df)
 
-#3 plot_feature_correlation_profile
+#3 plot_feature_correlation_profile (Figure 1.2)
 if 'df' in locals() and df is not None and not df.empty:
     plot_feature_correlation_profile(df, 'Diagnosis')
 
-#4 extract_sick_population
+#4 extract_sick_population (Figure 1.3)
 if df is not None:
     sick_df = extract_sick_population(df)
 
-#5 plot_sick_population_heatmap
+#5 plot_sick_population_heatmap (Figure 1.4)
 if 'sick_df' in locals() and not sick_df.empty:
     plot_sick_population_heatmap(sick_df)
 
-#6 plot_severity_distributions
+#6 plot_severity_distributions (Figure 1.5)
 plot_severity_distributions(sick_df)
 
-#7 analyze_metric_dissociation
+#7 analyze_metric_dissociation (Figure 1.6)
 if 'sick_df' in locals() and not sick_df.empty:
     analyze_metric_dissociation(sick_df)
 else:
@@ -73,7 +73,7 @@ df_pca = cleand_df_to_pca(cleand_data_path)
 if df_pca is not None:
     scaled_data = standardize(df_pca)
 
-#3 PCA: from 12D to new combined 3D
+#3 PCA: from 12D to new combined 3D (Figure 2.1-2.3)
 if scaled_data is not None:
     pca,df_pca_output,pca_results = our_pca(scaled_data,df_pca)
 total_variance = explained_variance_analysis(pca)
@@ -82,7 +82,7 @@ variance_analysis(scaled_data,threshold)
 scree_plot(scaled_data,threshold, total_variance)
 clusters_plot(df_pca_output)
 
-#4 Clustering
+#4 Clustering (Figure 2.4-2.6)
 elbow_method(df_pca_output,pca_results)
 k_means_clustering(df_pca_output,pca_results)
 clusters_3d_plot(df_pca_output)
@@ -100,10 +100,10 @@ clusters_per_assessment(cleand_data_path,df_pca)
 """
 [Step 4] Advanced Research Modules (bonus)
 """
-#1 poisson_analysis
+#1 poisson_analysis (Figure 4.1)
 if 'sick_df' in locals():
     run_poisson_analysis(sick_df)
 
-#2 gatekeeper_analysis
+#2 gatekeeper_analysis (Figure 4.2)
 if 'sick_df' in locals():
     run_gatekeeper_analysis(sick_df)

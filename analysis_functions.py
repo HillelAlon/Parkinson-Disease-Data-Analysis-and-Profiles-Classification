@@ -22,13 +22,13 @@ def load_dataset(path):
 
 def plot_global_heatmap(data):
     """Generates a professional heatmap for the entire feature set."""
-    logger.info("Generating global correlation heatmap.")
+    logger.info("Generating global correlation heatmap (Figure 1.1).")
     corr_matrix = data.corr()
     mask = np.triu(np.ones_like(corr_matrix, dtype=bool))
     
     plt.figure(figsize=(16, 10))
     sns.heatmap(corr_matrix, mask=mask, cmap='RdYlBu_r', center=0, linewidths=0.5)
-    plt.title('figure 1.1: Global Feature Correlation Landscape figure ', fontsize=16, fontweight='bold')
+    plt.title('Figure 1.1: Global Feature Correlation Landscape figure ', fontsize=16, fontweight='bold')
     plt.show()
 
 def plot_feature_correlation_profile(data, target_feature):
@@ -41,7 +41,7 @@ def plot_feature_correlation_profile(data, target_feature):
         logger.warning(f"Cannot plot profile for missing feature: {target_feature}")
         return
 
-    logger.info(f"Generating correlation profile for target: {target_feature}")
+    logger.info(f"Generating correlation profile for target: {target_feature} Figure 1.2.")
     
     # 1. Calculate the full correlation matrix
     corr_matrix = data.corr()
@@ -60,7 +60,7 @@ def plot_feature_correlation_profile(data, target_feature):
     bars = plt.bar(target_corrs.index, target_corrs.values, color=colors, edgecolor='grey', alpha=0.9)
     
     # 4. Styling for a professional look
-    plt.title(f'figure 1.2: Feature Correlation Profile: How "{target_feature}" relates to everything else',
+    plt.title(f'Figure 1.2: Feature Correlation Profile: How "{target_feature}" relates to everything else',
               fontsize=16, fontweight='bold', pad=20)
     plt.ylabel('Correlation Strength (Pearson Coefficient)', fontsize=12)
     plt.xlabel('All Other Dataset Features', fontsize=12)
@@ -98,7 +98,7 @@ def plot_sick_population_heatmap(sick_data):
         logger.warning("Sick dataset is empty. Cannot generate heatmap.")
         return
 
-    logger.info("Generating internal correlation heatmap for sick population.")
+    logger.info("Generating internal correlation heatmap for sick population (Figure 1.3).")
     
     # 1. Clean data for the heatmap
     # We drop 'Diagnosis' because it's always 1 (constant) for this group
@@ -124,21 +124,21 @@ def plot_sick_population_heatmap(sick_data):
         cbar_kws={"shrink": .8}
     )
     
-    plt.title('figure 1.3:Internal Disease Dynamics: Sick Population Correlation Map', fontsize=18, fontweight='bold')
+    plt.title('Figure 1.3:Internal Disease Dynamics: Sick Population Correlation Map', fontsize=18, fontweight='bold')
     plt.tight_layout()
     plt.show()
 
 
 def plot_severity_distributions(data):
     """Visualizes the distribution and scale of the three primary severity metrics."""
-    logger.info("Comparing distributions of UPDRS, MoCA, and Functional Assessment.")
+    logger.info("Comparing distributions of UPDRS, MoCA, and Functional Assessment (Figure 1.4).")
     metrics = ['UPDRS', 'MoCA', 'FunctionalAssessment']
     
     plt.figure(figsize=(15, 5))
     for i, m in enumerate(metrics, 1):
         plt.subplot(1, 3, i)
         sns.histplot(data[m], kde=True, color='purple')
-        plt.title(f'figure 1.4:{m} Distribution')
+        plt.title(f'Figure 1.4:{m} Distribution')
     plt.tight_layout()
     plt.show()
 
@@ -158,7 +158,7 @@ def analyze_metric_dissociation(data):
     
     plt.figure(figsize=(8, 4))
     sns.heatmap(inter_corr, annot=True, mask=mask_inter, cmap='Blues', center=0)
-    plt.title('figure 1.5: Inter-Metric Correlation (Proving Dissociation)')
+    plt.title('Figure 1.5: Inter-Metric Correlation (Proving Dissociation)')
     plt.show()
 
     # 2. Define non-target features for comparison
@@ -177,7 +177,7 @@ def analyze_metric_dissociation(data):
     # Sorting by UPDRS to highlight the most physically impactful features first
     sns.heatmap(comparison.sort_values(by='UPDRS', ascending=False).head(15), 
                 annot=True, cmap='YlGnBu')
-    plt.title('figure 1.6: Absolute Impact Comparison (Physical vs Cognitive vs Functional)')
+    plt.title('Figure 1.6: Absolute Impact Comparison (Physical vs Cognitive vs Functional)')
     plt.show()
 
 
@@ -185,7 +185,7 @@ def run_poisson_analysis(data):
     """
     Compares actual symptom clustering against a random Poisson model.
     """
-    logger.info("Running Poisson Distribution analysis.")
+    logger.info("Running Poisson Distribution analysis (Figure 4.1).")
     symptom_list = ['Tremor', 'Rigidity', 'Bradykinesia', 'PosturalInstability',
                     'SpeechProblems', 'SleepDisorders', 'Constipation']
 
@@ -199,7 +199,7 @@ def run_poisson_analysis(data):
     plt.figure(figsize=(10, 6))
     plt.bar(actual.index, actual.values, alpha=0.5, label='Observed Data', color='grey')
     plt.plot(actual.index, theoretical, 'ro-', linewidth=2, label='Poisson (Random Theory)')
-    plt.title(f'figure 4.1: Symptom Aggregation vs Random Chance (Mean: {mu:.2f})')
+    plt.title(f'Figure 4.1: Symptom Aggregation vs Random Chance (Mean: {mu:.2f})')
     plt.legend()
     plt.show()
 
@@ -208,7 +208,7 @@ def run_gatekeeper_analysis(data):
     """
     Identifies which symptoms correlate with a higher or lower overall symptom burden.
     """
-    logger.info("Executing Gatekeeper Analysis (Tremor Paradox).")
+    logger.info("Executing Gatekeeper Analysis (Tremor Paradox) (Figure 4.2).")
     symptoms = ['Tremor', 'Rigidity', 'Bradykinesia', 'PosturalInstability',
                 'SpeechProblems', 'SleepDisorders', 'Constipation']
     results = []
@@ -223,5 +223,5 @@ def run_gatekeeper_analysis(data):
     plt.figure(figsize=(12, 6))
     colors = ['#2ecc71' if x < 0 else '#e74c3c' for x in impact_df['Impact']]
     sns.barplot(data=impact_df, x='Impact', y='Symptom', palette=colors)
-    plt.title('figure 4.2: Gatekeeper Effect: Impact of specific symptoms on overall burden')
+    plt.title('Figure 4.2: Gatekeeper Effect: Impact of specific symptoms on overall burden')
     plt.show()
