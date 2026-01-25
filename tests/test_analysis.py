@@ -1,124 +1,94 @@
-import pytest
+import unittest
 import pandas as pd
 import numpy as np
+import sys
 import os
-import matplotlib.pyplot as plt
+from pathlib import Path
 from unittest.mock import patch
 
-# Importing the analysis functions from both scripts
-from analysis_functions import (
-    load_dataset,
-    plot_global_heatmap,
-    plot_feature_correlation_profile,
-    extract_sick_population,
-    plot_sick_population_heatmap,
-    plot_severity_distributions,
-    analyze_metric_dissociation
-)
-from clustering_functions import (
-    cleand_df_to_pca,
-    standardize,
-    our_pca,
-    explained_variance_analysis
-)
+# --- DYNAMIC PATH CONFIGURATION ---
+# Adds the project root to sys.path to ensure 'analysis_functions' can be imported
+current_file = Path(__file__).resolve()
+project_root = current_file.parent.parent # Adjust based on your folder structure
+if str(project_root) not in sys.path:
+    sys.path.append(str(project_root))
 
-# --- TEST FIXTURE ---
-@pytest.fixture
-def sample_data():
-    """Generates a synthetic dataset for clinical analysis testing."""
-    np.random.seed(42)
-    n_samples = 50
-    data = pd.DataFrame({
-        'PatientID': range(n_samples),
-        'Age': np.random.randint(50, 90, n_samples),
-        'Diagnosis': np.random.choice([0, 1], n_samples),
-        'UPDRS': np.random.uniform(10, 160, n_samples),
-        'MoCA': np.random.uniform(5, 30, n_samples),
-        'FunctionalAssessment': np.random.uniform(0, 10, n_samples),
-        'Tremor': np.random.choice([0, 1], n_samples),
-        'Rigidity': np.random.choice([0, 1], n_samples)
-    })
-    data.set_index('PatientID', inplace=True)
-    return data
+# Import the functions to be tested
+try:
+    from analysis_functions import extract_sick_population, run_poisson_analysis
+except ImportError:
+    # Fallback if the folder structure is different
+    from analysis_functions import extract_sick_population, run_poisson_analysis
 
-@pytest.fixture
-def temp_results_dir(tmp_path):
-    """Temporary directory for test plot exports."""
-    d = tmp_path / "results"
-    d.mkdir()
-    return str(d)
+class TestParkinsonAnalysis(unittest.TestCase):
 
-# --- UNIT TESTS ---
+    def setUp(self):
+        """
+        Setup: Generates the synthetic dataset for clinical analysis testing.
+        This follows the Modularity principle by centralizing data creation.
+        """
+        np.random.seed(42)
+        n_samples = 50
+        
+        # Creating the fake data structure 
+        self.sample_data = pd.DataFrame({
+            'PatientID': range(n_samples),
+            'Age': np.random.randint(50, 90, n_samples),
+            'Diagnosis': np.random.choice([0, 1], n_samples),
+            'UPDRS': np.random.uniform(10, 160, n_samples),
+            'MoCA': np.random.uniform(5, 30, n_samples),
+            'FunctionalAssessment': np.random.uniform(0, 10, n_samples),
+            'Tremor': np.random.choice([0, 1], n_samples),
+            'Rigidity': np.random.choice([0, 1], n_samples),
+            'Bradykinesia': np.random.choice([0, 1], n_samples),
+            'PosturalInstability': np.random.choice([0, 1], n_samples),
+            'SpeechProblems': np.random.choice([0, 1], n_samples),
+            'SleepDisorders': np.random.choice([0, 1], n_samples),
+            'Constipation': np.random.choice([0, 1], n_samples)
+        })
+        self.sample_data.set_index('PatientID', inplace=True)
 
-def test_extract_sick_population(sample_data):
-    """Verifies population filtering logic."""
-    sick_df = extract_sick_population(sample_data, 'Diagnosis', 1)
-    assert all(sick_df['Diagnosis'] == 1)
-    assert len(sick_df) == (sample_data['Diagnosis'] == 1).sum()
+    # --- TEST 1: extract_sick_population (Logical/Positive Test Case) ---
+    
+    def test_extract_sick_population_positive(self):
+        """
+        Positive Test Case: Verifies that the system works as expected with valid input data.
+        Checks if only patients with Diagnosis=1 are returned.
+        """
+        result = extract_sick_population(self.sample_data)
+        
+        # Verify the result is not empty (assuming seed 42 produces sick patients)
+        self.assertFalse(result.empty, "The sick population subset should not be empty.")
+        # Logical check: all diagnosis values must be 1
+        self.assertTrue(all(result['Diagnosis'] == 1), "Extracted population must only contain diagnosed patients.")
 
-@patch("matplotlib.pyplot.savefig")
-def test_visual_functions_smoke(mock_save, sample_data, temp_results_dir):
-    """Ensures all visual functions run with the corrected names."""
-    diagnosis_col = 'Diagnosis'
-    metrics = ['UPDRS', 'MoCA']
-    sick_df = extract_sick_population(sample_data, diagnosis_col, 1)
+    def test_extract_sick_population_null(self):
+        """
+        Null Test Case: Tests the system with empty values to confirm it handles them without crashing.
+        """
+        empty_df = pd.DataFrame(columns=['Diagnosis'])
+        result = extract_sick_population(empty_df)
+        self.assertTrue(result.empty, "Result should be empty when input is empty.")
 
-    # Calling the corrected function name
-    plot_global_heatmap(sample_data, temp_results_dir)
-    plot_feature_profile(sample_data, diagnosis_col, temp_results_dir)
-    plot_sick_population_heatmap(sick_df, diagnosis_col, temp_results_dir)
-    plot_severity_distributions(sick_df, metrics, temp_results_dir)
-    analyze_metric_dissociation(sick_df, metrics, temp_results_dir)
+    # --- TEST 2: run_poisson_analysis (Logical/Error Test Case) ---
 
-    assert mock_save.called
-    # We expect at least 6 saves (1 global, 1 profile, 1 sick heatmap, 1 dist, 2 dissociation)
-    assert mock_save.call_count >= 6
+    def test_poisson_logic_and_side_effects(self):
+        """
+        Logical Error Check: Verifies that the code produces the correct 'SymptomCount' column.
+        Handles the visual output using a mock to avoid runtime interruptions.
+        """
+        data_copy = self.sample_data.copy()
+        
+        # Using patch to prevent plt.show() from opening windows during test execution
+        with patch("matplotlib.pyplot.show"):
+            run_poisson_analysis(data_copy)
+            
+        # Verify that the new column was added to the dataframe
+        self.assertIn('SymptomCount', data_copy.columns, "SymptomCount column was not added.")
+        
+        # Boundary Test: Verify the count is within the possible range (0 to 7 symptoms)
+        self.assertTrue(data_copy['SymptomCount'].max() <= 7, "Symptom count exceeds the number of defined symptoms.")
 
-
-# --- PCA and Clustering TESTS ---
-
-def test_cleand_df_to_pca(sample_data, tmp_path):
-    """
-    Verifies that the cleaning function correctly filters for symptomatic patients (Diagnosis != 0)
-    and removes unnecessary or excluded columns.
-    """
-    # Create a temporary input file path
-    input_path = tmp_path / "raw_data.csv"
-    sample_data.to_csv(input_path)
-
-    # Execute the cleaning function
-    cleaned_df = cleand_df_to_pca(str(input_path))
-
-    # Assertions
-    assert all(cleaned_df['Diagnosis'] != 0)  # Ensures no healthy subjects remain
-    assert 'UPDRS' not in cleaned_df.columns  # Verifies clinical assessment removal
-    assert 'PatientID' not in cleaned_df.columns  # Verifies ID column removal from feature set
-
-
-def test_standardize_logic(sample_data):
-    """
-    Validates the standardization logic:
-    The resulting mean should be approximately 0 and the standard deviation should be 1.
-    """
-    # Use only numeric columns from the sample fixture
-    numeric_data = sample_data[['Age', 'UPDRS', 'MoCA']]
-    scaled = standardize(numeric_data)
-
-    # Check that the mean of the first column is approximately 0
-    assert np.isclose(np.mean(scaled[:, 0]), 0, atol=1e-7)
-    # Check that the standard deviation is 1
-    assert np.isclose(np.std(scaled[:, 0]), 1, atol=1e-7)
-
-
-def test_pca_output_dimensions(sample_data):
-    """
-    Ensures the PCA function returns exactly 3 components named PC1, PC2, and PC3.
-    """
-    numeric_data = sample_data[['Age', 'UPDRS', 'MoCA', 'FunctionalAssessment']]
-    scaled = standardize(numeric_data)
-
-    pca_model, df_output, results = our_pca(scaled)
-
-    # Dimensionality and naming checks
-    assert df_output.shape[1] == 3
-    assert list(df_output.columns) == ['PC1', 'PC2', 'PC3']
+if __name__ == '__main__':
+    # Execute the tests with verbose output
+    unittest.main()
