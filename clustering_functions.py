@@ -81,12 +81,12 @@ def variance_analysis(scaled_data,threshold):
     cumulative_variance = np.cumsum(full_pca.explained_variance_ratio_)
     # Finding the number of components for the threshold
     n_threshold = np.where(cumulative_variance >= threshold)[0][0] + 1
-    logger.info(f"To explain {threshold} of the variance, we would need {n_threshold} components.")
+    logger.info(f"To explain {threshold} of the variance, we would need {n_threshold} components (Figure 2.1).")
     # Plotting the "Scree Plot"
     plt.figure(figsize=(8, 5))
     plt.plot(range(1, len(cumulative_variance) + 1), cumulative_variance, marker='o', linestyle='--')
     plt.axhline(y=threshold, color='r', linestyle='-')
-    plt.title('How many components do we actually need?')
+    plt.title('Figure 2.1: How many components do we actually need?')
     plt.xlabel('Number of Components')
     plt.ylabel('Cumulative Explained Variance')
     plt.grid()
@@ -101,14 +101,14 @@ def scree_plot(scaled_data,threshold,total_variance):
 
     # 2. Find exactly how many components are needed for 70% threshold
     n_threshold = np.where(cumulative_variance >= threshold)[0][0] + 1
-    logger.info(f"To explain {threshold} of the variance, we would need {n_threshold} components.")
+    logger.info(f"To explain {threshold} of the variance, we would need {n_threshold} components (Figure 2.2).")
 
     # 3. Visualization: The Scree Plot
     plt.figure(figsize=(10, 5))
     plt.plot(range(1, len(cumulative_variance) + 1), cumulative_variance, marker='o', linestyle='--', color='b')
     plt.axhline(y=threshold, color='r', linestyle='-', label='70% Threshold')
     plt.axhline(y=total_variance, color='g', linestyle='--', label='Current 3 Components')
-    plt.title('Scree Plot: How much information are we capturing?')
+    plt.title('Figure 2.2: Scree Plot: How much information are we capturing?')
     plt.xlabel('Number of Principal Components')
     plt.ylabel('Cumulative Explained Variance')
     plt.legend()
@@ -133,7 +133,7 @@ def clusters_plot(df_pca_output):
                     alpha=0.6)
 
     # 3. Labels and Title
-    ax.set_title("3D PCA: Parkinson's Patient Profiles", fontsize=15)
+    ax.set_title("Figure 2.3: 3D PCA: Parkinson's Patient Profiles", fontsize=15)
     ax.set_xlabel('PC1')
     ax.set_ylabel('PC2')
     ax.set_zlabel('PC3')
@@ -142,7 +142,7 @@ def clusters_plot(df_pca_output):
     plt.colorbar(sc, label='PC1 Gradient')
     plt.tight_layout()
     plt.show()
-    logger.info("3D Visualization created using Matplotlib.")
+    logger.info("3D Visualization created using Matplotlib (Figure 2.3).")
 
 
 # The Elbow Method
@@ -159,7 +159,7 @@ def elbow_method(df_pca_output,pca_results):
     # 2. Plot the Elbow graph
     plt.figure(figsize=(8, 5))
     plt.plot(K_range, inertia, marker='o', linestyle='-', color='purple')
-    plt.title('The Elbow Method: Finding Optimal Clusters', fontsize=15)
+    plt.title('Figure 2.4: The Elbow Method: Finding Optimal Clusters', fontsize=15)
     plt.xlabel('Number of Clusters (k)')
     plt.ylabel('Inertia (Error)')
     plt.xticks(K_range)
@@ -167,7 +167,7 @@ def elbow_method(df_pca_output,pca_results):
 
     # Highlight the "Elbow"
     plt.show()
-    logger.info("Elbow Method analysis completed.")
+    logger.info("Elbow Method analysis completed (Figure 2.4).")
 
 
 # K-Means Clustering
@@ -199,7 +199,7 @@ def clusters_3d_plot(df_pca_output):
                          s=40,
                          alpha=0.8)
 
-    ax.set_title("Identified Patient Profiles (4 Clusters)", fontsize=15)
+    ax.set_title("Figure 2.5: Identified Patient Profiles (4 Clusters)", fontsize=15)
     ax.set_xlabel('PC1')
     ax.set_ylabel('PC2')
     ax.set_zlabel('PC3')
@@ -208,7 +208,7 @@ def clusters_3d_plot(df_pca_output):
     legend1 = ax.legend(*scatter.legend_elements(), title="Clusters")
     ax.add_artist(legend1)
     plt.show()
-    logger.info("3D Cluster Visualization created successfully.")
+    logger.info("3D Cluster Visualization created successfully (Figure 2.5).")
 
 
 
@@ -239,12 +239,12 @@ def cluster_heat_map(df_pca,cluster_profiles):
     # Creating Heat map
     plt.figure(figsize=(12, 6))
     sns.heatmap(cluster_profiles_norm,annot=cluster_profiles, cmap='RdYlBu_r', center=0, fmt = '.2f')
-    plt.title("Patient Profiles Characteristics (Heat map)", fontsize=16)
+    plt.title("Figure 2.6: Patient Profiles Characteristics (Heat map)", fontsize=16)
     plt.ylabel("Cluster ID")
     plt.xlabel("Medical & Lifestyle Features")
     plt.show()
 
-    logger.info("Visual profile summary created.")
+    logger.info("Visual profile summary created (Figure 2.6).")
 
 
 # Differences between Clusters per Assessment

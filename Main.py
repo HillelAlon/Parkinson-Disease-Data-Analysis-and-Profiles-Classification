@@ -15,7 +15,7 @@ from clustering_functions import *
 
 
 """
-[Step 1] Cleaning Raw Data
+[Step 0] Cleaning Raw Data
 """
 #Raw cleaning function
 file_path = 'data/parkinsons_disease_data.csv'
@@ -32,7 +32,7 @@ print(df_clean.head())
 
 
 """
-[Step 2] Clinical Analysis Pipeline
+[Step 1] Clinical Analysis Pipeline
 """
 #1 load dataset
 cleand_data_path = "data/parkinsons_cleaned.csv"
@@ -65,16 +65,16 @@ else:
 
 
 """
-[Step 3] Running PCA & Unsupervised Clustering...
+[Step 2] Running PCA & Unsupervised Clustering...
 """
-#1 Make a new df without nominal and ordinal columns.
+#1 Make a new df without nominal and ordinal columns
 df_pca = cleand_df_to_pca(cleand_data_path)
 
-#2. Transformation the df to Z-Scores values.
+#2 Transformation the df to Z-Scores values
 if df_pca is not None:
     scaled_data = standardize(df_pca)
 
-#3. PCA: from 12D to new combined 3D. (sklearn.decomposition.PCA)
+#3 PCA: from 12D to new combined 3D
 if scaled_data is not None:
     pca,df_pca_output,pca_results = our_pca(scaled_data,df_pca)
 total_variance = explained_variance_analysis(pca)
@@ -83,7 +83,7 @@ variance_analysis(scaled_data,threshold)
 scree_plot(scaled_data,threshold, total_variance)
 clusters_plot(df_pca_output)
 
-#4. Clustering.
+#4 Clustering
 elbow_method(df_pca_output,pca_results)
 k_means_clustering(df_pca_output,pca_results)
 clusters_3d_plot(df_pca_output)
@@ -92,16 +92,15 @@ cluster_heat_map(df_pca,cluster_profiles)
 
 
 """
-[Step 4] Statistical Cluster Validation (ANOVA Results):
+[Step 3] Statistical Cluster Validation (ANOVA Results):
 """
-#Compare between the clustering (Age, Lifestyle and Clinical Measures) and every assessment (UPDRS,MoCA,FunctionalAssessment).
+#Compare between the clustering (Age, Lifestyle and Clinical Measures) and every assessment (UPDRS,MoCA,FunctionalAssessment)
 clusters_per_assessment(cleand_data_path,df_pca)
 
 
 """
-[Step 5] Advanced Research Modules (bonus)
+[Step 4] Advanced Research Modules (bonus)
 """
-
 #1 poisson_analysis
 if 'sick_df' in locals():
     run_poisson_analysis(sick_df)
