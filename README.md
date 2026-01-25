@@ -7,7 +7,7 @@ This research explores the relationships between lifestyle choices, clinical cha
 **Hypothesis:** Patients can be categorized into distinct phenotypes based on clinical and lifestyle data, and these groups show different trajectories of physical and cognitive decline.
 **link for gitHub:** https://github.com/HillelAlon/Parkinson-Disease-Data-Analysis-and-Profiles-Classification
 **Link for slides:** [Project Presentation](https://docs.google.com/presentation/d/1nOysAlVYcGIlKAsOH9k4TYhBiuq9o8w6vciK3Ff_9Ow/edit?slide=id.g3b572de3954_2_103#slide=id.g3b572de3954_2_103).
-
+**link for Dataset:**: https://www.kaggle.com/datasets/rabieelkharoua/parkinsons-disease-dataset-analysis (Note - also in folder data > parkinson_disease_data.csv)
 
  # Research Goal
 To use machine learning (K-Means) and dimensionality reduction (PCA) to group patients into 4 distinct clusters, enabling a more personalized approach to wellness and treatment strategies.
@@ -59,3 +59,6 @@ Libraries: Pandas, NumPy, Scikit-Learn, Matplotlib, Seaborn, Pytest.
 3.  **Run unit tests:** pytest analysis/test_analysis.py
 
 **Created by: Tamar Kan, Alon Hillel, Or Galifat and Roni Itay | Neuroscience, Bar-Ilan University**
+
+## References
+Fereshtehnejad, S.-M., Romenets, S. R., Anang, J. B. M., Latreille, V., Gagnon, J.-F., & Postuma, R. B. (2015). New Clinical Subtypes of Parkinson Disease and Their Longitudinal Progression. JAMA Neurology, 72(8), 863. https://doi.org/10.1001/jamaneurol.2015.0703
