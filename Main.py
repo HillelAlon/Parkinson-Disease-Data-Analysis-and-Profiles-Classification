@@ -34,29 +34,29 @@ print(df_clean.head())
 """
 [Step 1] Clinical Analysis Pipeline
 """
-#1 load dataset
+#0 load dataset
 df = load_dataset(cleand_data_path)
 
-#2 plot_global_heatmap (Figure 1.1)
+#1 plot_global_heatmap (Figure 1.1)
 if df is not None:
     plot_global_heatmap(df)
 
-#3 plot_feature_correlation_profile (Figure 1.2)
+#2 plot_feature_correlation_profile (Figure 1.2)
 if 'df' in locals() and df is not None and not df.empty:
     plot_feature_correlation_profile(df, 'Diagnosis')
 
-#4 extract_sick_population (Figure 1.3)
+#3 extract_sick_population (Figure 1.3)
 if df is not None:
     sick_df = extract_sick_population(df)
 
-#5 plot_sick_population_heatmap (Figure 1.4)
+#4 plot_sick_population_heatmap (Figure 1.4)
 if 'sick_df' in locals() and not sick_df.empty:
     plot_sick_population_heatmap(sick_df)
 
-#6 plot_severity_distributions (Figure 1.5)
+#5 plot_severity_distributions (Figure 1.5)
 plot_severity_distributions(sick_df)
 
-#7 analyze_metric_dissociation (Figure 1.6)
+#6 analyze_metric_dissociation (Figure 1.6)
 if 'sick_df' in locals() and not sick_df.empty:
     analyze_metric_dissociation(sick_df)
 else:
