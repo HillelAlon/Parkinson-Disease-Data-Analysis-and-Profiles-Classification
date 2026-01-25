@@ -9,6 +9,5 @@ seaborn~=0.13.2
 ipython~=9.9.0
 scipy~=1.17.0
 
-# Development dependencies
-pytest~=8.0.0
+# Development dependencies - no need
 
