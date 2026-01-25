@@ -30,7 +30,7 @@ The project consists of several core analyses:
 
  # Methodology
 Methodology & Research Flow
-1. Data Preparation (data_cleaning.py)
+0. Data Preparation (data_cleaning.py)
 
     Validation & Cleaning: We implemented a rigorous cleaning pipeline to remove non-informative features like DoctorInCharge and eliminate duplicate records.
 
@@ -38,7 +38,7 @@ Methodology & Research Flow
 
     Rationale: Establishing a clean "Ground Truth" is essential to prevent clustering algorithms from focusing on noisy or redundant data.
 
-2. Multi-Stage Clinical Analysis (functions_analysis.py)
+1. Multi-Stage Clinical Analysis (functions_analysis.py)
 
     Global Screening: We established a baseline correlation landscape across all 2,105 subjects.
 
@@ -50,7 +50,7 @@ Methodology & Research Flow
 
         Rationale: Finding wide distributions and low correlations between these pillars supports our hypothesis that Parkinson's decline follows independent, dissociated pathways.
 
-3. Advanced Modeling & Dimensionality Reduction (pca_cleaned_function.py)
+2. Advanced Modeling & Dimensionality Reduction (pca_cleaned_function.py)
 
     Normalization: Continuous variables were standardized using Z-score scaling (Z=σx−μ​) to ensure all 35 features contribute equally to the model.
 
@@ -60,7 +60,7 @@ Methodology & Research Flow
 
         Finding: The resulting overlapping clusters confirm that Parkinson’s exists on a clinical spectrum rather than in isolated silos.
 
-    Statistical Validation: A One-Way ANOVA was performed to verify if the identified profiles represent statistically distinct groups despite their clinical overlap.
+3.  Statistical Validation: A One-Way ANOVA was performed to verify if the identified profiles represent statistically distinct groups despite their clinical overlap.
 
 4. Stochastic Analysis & Complexity Modules (bonus_analysis.py)
 
