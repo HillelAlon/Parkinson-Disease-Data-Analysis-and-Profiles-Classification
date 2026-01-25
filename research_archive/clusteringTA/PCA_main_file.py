@@ -1,7 +1,7 @@
-from clusteringTA.pca_functions import *
+from research_archive.clusteringTA.pca_functions import *
 
 #1 Make a new df without nominal and ordinal columns.
-cleand_data_path = "../data/parkinsons_cleaned.csv"
+cleand_data_path = "../../data/parkinsons_cleaned.csv"
 df_pca = cleand_df_to_pca(cleand_data_path)
 
 #2. Transformation the df to Z-Scores values.
