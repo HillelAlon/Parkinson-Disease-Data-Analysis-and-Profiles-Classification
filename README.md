@@ -83,7 +83,7 @@ The dataset contains 2,105 patient records with features including:
 - **Diagnosis Information:** Parkinson's Disease diagnosis status
 
 **Folder Structure**
-
+```
 ├── data/                       # Raw and processed CSV datasets
 ├── tests/                       # Unit tests for validating analysis functions
 ├── research_archive/            # [Internal] Preliminary research and exploratory phase: Early EDA and experimental Jupyter Notebooks, Legacy scripts and discarded model attempts, Reference materials not included in the final pipeline
@@ -96,6 +96,7 @@ The dataset contains 2,105 patient records with features including:
 ├── Main.py                      # Central entry point to run the full analysis
 ├── README.md                    # Project documentation
 └── requirements.txt             # Project dependencies  
+```
 
 - # Tech Stack
 Language: Python
