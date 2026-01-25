@@ -9,8 +9,8 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 #Import all functions
-from data_cleaning import load_and_clean_data
-from analysis_logic import *
+from data_cleaning_functions import load_and_clean_data
+from analysis_functions import *
 from clustering_functions import *
 
 

@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from unittest.mock import patch
 
 # Importing the analysis functions from both scripts
-from analysis_logic import (
+from analysis_functions import (
     load_dataset,
     plot_global_heatmap,
     plot_feature_correlation_profile,
