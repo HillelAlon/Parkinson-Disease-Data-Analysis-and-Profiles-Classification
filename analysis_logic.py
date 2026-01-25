@@ -60,7 +60,7 @@ def plot_feature_correlation_profile(data, target_feature):
     bars = plt.bar(target_corrs.index, target_corrs.values, color=colors, edgecolor='grey', alpha=0.9)
     
     # 4. Styling for a professional look
-    plt.title(f'figure 1.2: Feature Correlation Profile: How "{target_feature}" relates to everything else', 
+    plt.title(f'figure 1.3: Feature Correlation Profile: How "{target_feature}" relates to everything else', 
               fontsize=16, fontweight='bold', pad=20)
     plt.ylabel('Correlation Strength (Pearson Coefficient)', fontsize=12)
     plt.xlabel('All Other Dataset Features', fontsize=12)
@@ -124,7 +124,7 @@ def plot_sick_population_heatmap(sick_data):
         cbar_kws={"shrink": .8}
     )
     
-    plt.title('figure 1.2:Internal Disease Dynamics: Sick Population Correlation Map', fontsize=18, fontweight='bold')
+    plt.title('figure 1.3:Internal Disease Dynamics: Sick Population Correlation Map', fontsize=18, fontweight='bold')
     plt.tight_layout()
     plt.show()
 
@@ -138,7 +138,7 @@ def plot_severity_distributions(data):
     for i, m in enumerate(metrics, 1):
         plt.subplot(1, 3, i)
         sns.histplot(data[m], kde=True, color='purple')
-        plt.title(f'figure 1.3:{m} Distribution')
+        plt.title(f'figure 1.4:{m} Distribution')
     plt.tight_layout()
     plt.show()
 
@@ -158,7 +158,7 @@ def analyze_metric_dissociation(data):
     
     plt.figure(figsize=(8, 4))
     sns.heatmap(inter_corr, annot=True, mask=mask_inter, cmap='Blues', center=0)
-    plt.title('figure 1.4: Inter-Metric Correlation (Proving Dissociation)')
+    plt.title('figure 1.5: Inter-Metric Correlation (Proving Dissociation)')
     plt.show()
 
     # 2. Define non-target features for comparison
@@ -177,7 +177,7 @@ def analyze_metric_dissociation(data):
     # Sorting by UPDRS to highlight the most physically impactful features first
     sns.heatmap(comparison.sort_values(by='UPDRS', ascending=False).head(15), 
                 annot=True, cmap='YlGnBu')
-    plt.title('figure 1.5: Absolute Impact Comparison (Physical vs Cognitive vs Functional)')
+    plt.title('figure 1.6: Absolute Impact Comparison (Physical vs Cognitive vs Functional)')
     plt.show()
 
 
