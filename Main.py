@@ -17,7 +17,7 @@ from clustering_functions import *
 """
 [Step 0] Cleaning Raw Data
 """
-#Raw cleaning function
+#1 Raw cleaning function
 file_path = 'data/parkinsons_disease_data.csv'
 index_col = 'PatientID'
 columns_to_drop = ['DoctorInCharge']
@@ -95,7 +95,7 @@ cluster_heat_map(df_pca,cluster_profiles)
 """
 [Step 3] Statistical Cluster Validation (ANOVA Results):
 """
-#Compare between the clustering (Age, Lifestyle and Clinical Measures) and every assessment (UPDRS,MoCA,FunctionalAssessment)
+#1 Compare between the clustering (Age, Lifestyle and Clinical Measures) and every assessment (UPDRS,MoCA,FunctionalAssessment)
 clusters_per_assessment(cleand_data_path,df_pca)
 
 
