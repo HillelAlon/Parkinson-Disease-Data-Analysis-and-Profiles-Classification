@@ -6,16 +6,16 @@ import matplotlib.pyplot as plt
 from unittest.mock import patch
 
 # Importing the analysis functions from both scripts
-from analysis.functions_analysis import (
+from analysis_logic import (
     load_dataset,
     plot_global_heatmap,
-    plot_feature_profile, 
+    plot_feature_correlation_profile,
     extract_sick_population,
     plot_sick_population_heatmap,
     plot_severity_distributions,
     analyze_metric_dissociation
 )
-from clusteringTA.pca_functions import (
+from clustering_functions import (
     cleand_df_to_pca,
     standardize,
     our_pca,
