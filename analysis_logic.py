@@ -28,7 +28,7 @@ def plot_global_heatmap(data):
     
     plt.figure(figsize=(16, 10))
     sns.heatmap(corr_matrix, mask=mask, cmap='RdYlBu_r', center=0, linewidths=0.5)
-    plt.title('Global Feature Correlation Landscape', fontsize=16, fontweight='bold')
+    plt.title('figure 1.1: Global Feature Correlation Landscape figure ', fontsize=16, fontweight='bold')
     plt.show()
 
 def plot_feature_correlation_profile(data, target_feature):
@@ -60,7 +60,7 @@ def plot_feature_correlation_profile(data, target_feature):
     bars = plt.bar(target_corrs.index, target_corrs.values, color=colors, edgecolor='grey', alpha=0.9)
     
     # 4. Styling for a professional look
-    plt.title(f'Feature Correlation Profile: How "{target_feature}" relates to everything else', 
+    plt.title(f'figure 1.2: Feature Correlation Profile: How "{target_feature}" relates to everything else', 
               fontsize=16, fontweight='bold', pad=20)
     plt.ylabel('Correlation Strength (Pearson Coefficient)', fontsize=12)
     plt.xlabel('All Other Dataset Features', fontsize=12)
@@ -124,7 +124,7 @@ def plot_sick_population_heatmap(sick_data):
         cbar_kws={"shrink": .8}
     )
     
-    plt.title('Internal Disease Dynamics: Sick Population Correlation Map', fontsize=18, fontweight='bold')
+    plt.title('figure 1.2:Internal Disease Dynamics: Sick Population Correlation Map', fontsize=18, fontweight='bold')
     plt.tight_layout()
     plt.show()
 
@@ -138,7 +138,7 @@ def plot_severity_distributions(data):
     for i, m in enumerate(metrics, 1):
         plt.subplot(1, 3, i)
         sns.histplot(data[m], kde=True, color='purple')
-        plt.title(f'{m} Distribution')
+        plt.title(f'figure 1.3:{m} Distribution')
     plt.tight_layout()
     plt.show()
 
@@ -158,7 +158,7 @@ def analyze_metric_dissociation(data):
     
     plt.figure(figsize=(8, 4))
     sns.heatmap(inter_corr, annot=True, mask=mask_inter, cmap='Blues', center=0)
-    plt.title('Inter-Metric Correlation (Proving Dissociation)')
+    plt.title('figure 1.4: Inter-Metric Correlation (Proving Dissociation)')
     plt.show()
 
     # 2. Define non-target features for comparison
@@ -177,7 +177,7 @@ def analyze_metric_dissociation(data):
     # Sorting by UPDRS to highlight the most physically impactful features first
     sns.heatmap(comparison.sort_values(by='UPDRS', ascending=False).head(15), 
                 annot=True, cmap='YlGnBu')
-    plt.title('Absolute Impact Comparison (Physical vs Cognitive vs Functional)')
+    plt.title('figure 1.5: Absolute Impact Comparison (Physical vs Cognitive vs Functional)')
     plt.show()
 
 
@@ -199,7 +199,7 @@ def run_poisson_analysis(data):
     plt.figure(figsize=(10, 6))
     plt.bar(actual.index, actual.values, alpha=0.5, label='Observed Data', color='grey')
     plt.plot(actual.index, theoretical, 'ro-', linewidth=2, label='Poisson (Random Theory)')
-    plt.title(f'Symptom Aggregation vs Random Chance (Mean: {mu:.2f})')
+    plt.title(f'figure 4.1: Symptom Aggregation vs Random Chance (Mean: {mu:.2f})')
     plt.legend()
     plt.show()
 
@@ -223,5 +223,5 @@ def run_gatekeeper_analysis(data):
     plt.figure(figsize=(12, 6))
     colors = ['#2ecc71' if x < 0 else '#e74c3c' for x in impact_df['Impact']]
     sns.barplot(data=impact_df, x='Impact', y='Symptom', palette=colors)
-    plt.title('Gatekeeper Effect: Impact of specific symptoms on overall burden')
+    plt.title('figure 4.2: Gatekeeper Effect: Impact of specific symptoms on overall burden')
     plt.show()
