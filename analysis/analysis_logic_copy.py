@@ -33,7 +33,7 @@ def plot_global_heatmap(data):
     
     plt.figure(figsize=(16, 10))
     sns.heatmap(corr_matrix, mask=mask, cmap='RdYlBu_r', center=0, linewidths=0.5)
-    plt.title('Global Feature Correlation Landscape', fontsize=16, fontweight='bold')
+    plt.title(' Global Feature Correlation Landscape', fontsize=16, fontweight='bold')
     plt.show()
 
 # Execution
