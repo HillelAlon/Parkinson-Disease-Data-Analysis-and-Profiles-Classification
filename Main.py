@@ -64,7 +64,7 @@ else:
 
 
 """
-[Step 2] Running PCA & Unsupervised Clustering...
+[Step 2] Running PCA & Clustering
 """
 #1 Make a new df without nominal and ordinal columns
 df_pca = cleand_df_to_pca(cleand_data_path)
