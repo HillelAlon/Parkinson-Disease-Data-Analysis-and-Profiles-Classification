@@ -100,7 +100,7 @@ The dataset contains 2,105 patient records with features including:
 
 - # Tech Stack
 Language: Python
-Libraries: Pandas, NumPy, Scikit-Learn, Matplotlib, Seaborn, Pytest.
+Libraries: Pandas, NumPy, Scikit-Learn, Matplotlib, Ipython, Scipy.
 
 ## How to Run
 1. **Install requirements:** pip install -r requirements.txt
