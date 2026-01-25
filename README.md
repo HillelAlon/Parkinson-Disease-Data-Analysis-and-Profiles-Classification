@@ -9,7 +9,13 @@ This research explores the relationships between lifestyle choices, clinical cha
 **Link for slides:** [Project Presentation](https://docs.google.com/presentation/d/1nOysAlVYcGIlKAsOH9k4TYhBiuq9o8w6vciK3Ff_9Ow/edit?slide=id.g3b572de3954_2_103#slide=id.g3b572de3954_2_103).
 **link for Dataset:**: https://www.kaggle.com/datasets/rabieelkharoua/parkinsons-disease-dataset-analysis (Note - also in folder data > parkinson_disease_data.csv)
 
- # Research Goal
+### Metric Dissociation Logic
+This study specifically tests the **Metric Dissociation Hypothesis**. By analyzing the lack of linear correlation between UPDRS (motor severity), MoCA (cognitive score), and Functional Assessment scores, we aim to provide data-driven evidence for the heterogeneous nature of the disease, supporting the transition toward personalized medicine in PD care.
+**link for gitHub:** https://github.com/HillelAlon/Parkinson-Disease-Data-Analysis-and-Profiles-Classification
+**Link for slides:** [Project Presentation](https://docs.google.com/presentation/d/  
+**link for supporting academic paper** Title: New Clinical Subtypes of Parkinson Disease and Their Longitudinal Progression: A Prospective Cohort Comparison With Other Phenotypes Link: https://pubmed.ncbi.nlm.nih.gov/26076039/
+
+# Research Goal
 To use machine learning (K-Means) and dimensionality reduction (PCA) to group patients into 4 distinct clusters, enabling a more personalized approach to wellness and treatment strategies.
 The overarching goal of this study was to identify key factors influencing patient health and to categorize patients into meaningful subgroups for personalized care.
 
@@ -19,34 +25,93 @@ The project consists of several core analyses:
 - Advanced Patient Profiling: Using Machine Learning to identify distinct patient phenotypes.
 
  # Methodology
-1. **Data cleaning** - convert PatientID to Index, Remove Irrelevant Columns, Remove Duplicates, Save Cleaned Data
-2.  **Analysis:** Generating correlation heatmaps and identifying risk/protective lifestyle factors.
-    - **Poisson Analysis:** Proving that symptoms aggregate biologically rather than randomly.
-    - **Gatekeeper Analysis:** Identifying symptoms that influence the overall disease burden.
-3.  **Clustering**
-    - **Normalization:** Scaling data using Z-Scores.
-    - **PCA:** Reducing 12 variables into 3 Principal Components (capturing >70% variance).
-    - **K-Means:** Grouping patients into 4 profiles using the Elbow Method.
-4.  **Visualization:** 3D plotting of clusters, standardized heatmaps, and disease progression roadmaps (Physical vs. Cognitive trajectories).
+Methodology & Research Flow
+0. Data Preparation (data_cleaning.py)
 
+    Validation & Cleaning: We implemented a rigorous cleaning pipeline to remove non-informative features like DoctorInCharge and eliminate duplicate records.
+
+    Indexing: PatientID was converted to the primary index to ensure consistent tracking across all analysis modules.
+
+    Rationale: Establishing a clean "Ground Truth" is essential to prevent clustering algorithms from focusing on noisy or redundant data.
+
+1. Multi-Stage Clinical Analysis (functions_analysis.py)
+
+    Global Screening: We established a baseline correlation landscape across all 2,105 subjects.
+
+        Rationale: This prevents Confounding Bias by ensuring that observed patterns are not driven by external factors like Age or BMI that affect the general population.
+
+    Intra-Cohort Zoom-In: We isolated the diagnosed population (n=1,304) to uncover high-resolution dynamics specific to the pathological state.
+
+    Metric Dissociation Testing: We analyzed the Physical (UPDRS), Cognitive (MoCA), and Functional assessment scales.
+
+        Rationale: Finding wide distributions and low correlations between these pillars supports our hypothesis that Parkinson's decline follows independent, dissociated pathways.
+
+2. Advanced Modeling & Dimensionality Reduction (pca_cleaned_function.py)
+
+    Normalization: Continuous variables were standardized using Z-score scaling (Z=σx−μ​) to ensure all 35 features contribute equally to the model.
+
+    PCA Navigation: We implemented Principal Component Analysis to reduce data complexity into a visualizable 3D space.
+
+    K-Means Clustering: We attempted to categorize patients into 4 clinical profiles using the Elbow Method.
+
+        Finding: The resulting overlapping clusters confirm that Parkinson’s exists on a clinical spectrum rather than in isolated silos.
+
+3.  Statistical Validation: A One-Way ANOVA was performed to verify if the identified profiles represent statistically distinct groups despite their clinical overlap.
+
+4. Stochastic Analysis & Complexity Modules (bonus_analysis.py)
+
+    Poisson Distribution: We compared symptom aggregation against a random model to prove that symptom clustering is a structured biological process rather than random noise.
+
+    Gatekeeper Analysis: We tested for "leader" symptoms that might drive overall burden.
+
+        Rationale: Confirming the absence of a single "Gatekeeper" reinforces the theory that disease progression is systemic and unique to each individual.
 # Key Findings 
 - A synthetic data is not always realistic :(
+- Metric Dissociation: Clinical evidence suggests that motor (UPDRS) and cognitive (MoCA) declines progress as independent pathways, highlighting the need for multi-domain treatment.
+
+- Symptom Logic: Poisson analysis confirmed that symptoms are biologically clustered rather than appearing randomly.
 
 ## Data Description
 The dataset contains 2,105 patient records with features including:
-- **Lifestyle:** Diet Quality, Physical Activity, Sleep Quality, BMI.
-- **Clinical:** UPDRS (Physical severity), MoCA (Cognitive score), and specific symptoms like Tremor and Rigidity.
+- Patient ID
+- **Demographic Details:** Age, Gender, Ethnicity, EducationLevel
+- **Lifestyle Factors:** BMI, Smoking, Alcohol Consumption, Physical Activity, Diet Quality,Sleep Quality
+- **Medical History** (presence of): Traumatic Brain Injury, Hypertension, Diabetes, Depression, Stroke. 
+- **Clinical Measurements:** Systolic BP, DiastolicBP, Cholesterol Total, Cholesterol LDL, Cholesterol HDL, Cholesterol Triglycerides.
+- **Cognitive and Functional Assessments:** Unified Parkinson's Disease Rating Scale, Montreal Cognitive Assessment, Functional assessment score
+- **Symptoms:** Presence of tremor, Presence of muscle rigidity, Slowness of movement, Stability/balance issues, Presence of speech problems, Presence of sleep disorders, Presence of constipation.
+- **Diagnosis Information:** Parkinson's Disease diagnosis status
 
-## Folder Structure
-* `Main.py`: The central entry point for running the cleaning and analysis pipeline.
-* `cleaning_data/`: 
-    * `data_cleaning.py`: Functions for data loading, validation, and preprocessing.
-* `analysis/`:
-    * `analysis_logic.py`: Core logic for statistical tests, Poisson distribution, and disease trajectories.
-    * `test_analysis.py`: Unit tests using `pytest` for validating analysis functions.
-* `clusteringTA/`:
-    * `PCA_main_file.py`: Implementation of Z-score normalization, PCA, and Clustering.
-* `data/`: Contains raw and processed CSV files.
+**Folder Structure**
+Each module folder contains the source code (.py) for automated execution and a Jupyter notebook (.ipynb) used for exploratory analysis and presentation.
+
+    main_script.py: The central entry point that orchestrates the entire research pipeline from data cleaning to statistical validation.
+
+    cleaning_data/:
+
+        data_cleaning.py: Functions for data loading, integrity validation, and preprocessing.
+
+    analysis/:
+
+        functions_analysis.py: Implementation of the 7-stage clinical research logic and visualizations.
+
+        bonus_analysis.py: Advanced statistical modules (Poisson and Gatekeeper analysis).
+
+    clusteringTA/:
+
+        pca_cleaned_function.py: Professional implementation of PCA dimensionality reduction and K-Means clustering.
+
+    testsing/:
+
+        test_analysis.py: Unit tests using the pytest framework to ensure the reliability of research functions.
+
+    data/: Directory containing raw and processed CSV datasets.
+
+    results/: Automatically generated directory where all 15+ visualizations and the research log (00_research_log_and_conclusions.txt) are stored.
+
+    requirements.txt: List of all necessary Python dependencies and their versions.
+
+    README.md: This documentation file, providing a project overview, hypothesis, and execution instructions.
 
 - # Tech Stack
 Language: Python
