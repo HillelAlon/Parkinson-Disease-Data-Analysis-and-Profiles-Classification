@@ -45,18 +45,18 @@ if df is not None:
 if 'df' in locals() and df is not None and not df.empty:
     plot_feature_correlation_profile(df, 'Diagnosis')
 
-#3 extract_sick_population (Figure 1.3)
+#3 extract_sick_population
 if df is not None:
     sick_df = extract_sick_population(df)
 
-#4 plot_sick_population_heatmap (Figure 1.4)
+#4 plot_sick_population_heatmap (Figure 1.3)
 if 'sick_df' in locals() and not sick_df.empty:
     plot_sick_population_heatmap(sick_df)
 
-#5 plot_severity_distributions (Figure 1.5)
+#5 plot_severity_distributions (Figure 1.4)
 plot_severity_distributions(sick_df)
 
-#6 analyze_metric_dissociation (Figure 1.6)
+#6 analyze_metric_dissociation (Figure 1.5,1.6)
 if 'sick_df' in locals() and not sick_df.empty:
     analyze_metric_dissociation(sick_df)
 else:
