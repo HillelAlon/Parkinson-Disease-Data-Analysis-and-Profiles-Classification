@@ -82,10 +82,12 @@ variance_analysis(scaled_data,threshold)
 scree_plot(scaled_data,threshold, total_variance)
 clusters_plot(df_pca_output)
 
-#4 Clustering (Figure 2.4-2.6)
+#4 Clustering (Figure 2.4-2.5)
 elbow_method(df_pca_output,pca_results)
 k_means_clustering(df_pca_output,pca_results)
 clusters_3d_plot(df_pca_output)
+
+#5 Clustering creating 4 profiles Heat map (Figure 2.6)
 cluster_profiles = cluster_profile(df_pca,df_pca_output)
 cluster_heat_map(df_pca,cluster_profiles)
 
