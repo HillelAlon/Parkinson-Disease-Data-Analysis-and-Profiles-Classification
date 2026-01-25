@@ -83,35 +83,19 @@ The dataset contains 2,105 patient records with features including:
 - **Diagnosis Information:** Parkinson's Disease diagnosis status
 
 **Folder Structure**
-Each module folder contains the source code (.py) for automated execution and a Jupyter notebook (.ipynb) used for exploratory analysis and presentation.
 
-    main_script.py: The central entry point that orchestrates the entire research pipeline from data cleaning to statistical validation.
-
-    cleaning_data/:
-
-        data_cleaning.py: Functions for data loading, integrity validation, and preprocessing.
-
-    analysis/:
-
-        functions_analysis.py: Implementation of the 7-stage clinical research logic and visualizations.
-
-        bonus_analysis.py: Advanced statistical modules (Poisson and Gatekeeper analysis).
-
-    clusteringTA/:
-
-        pca_cleaned_function.py: Professional implementation of PCA dimensionality reduction and K-Means clustering.
-
-    testsing/:
-
-        test_analysis.py: Unit tests using the pytest framework to ensure the reliability of research functions.
-
-    data/: Directory containing raw and processed CSV datasets.
-
-    results/: Automatically generated directory where all 15+ visualizations and the research log (00_research_log_and_conclusions.txt) are stored.
-
-    requirements.txt: List of all necessary Python dependencies and their versions.
-
-    README.md: This documentation file, providing a project overview, hypothesis, and execution instructions.
+├── data/                       # Raw and processed CSV datasets
+├── tests/                       # Unit tests for validating analysis functions
+├── research_archive/            # [Internal] Preliminary research and exploratory phase: Early EDA and experimental Jupyter Notebooks, Legacy scripts and discarded model attempts, Reference materials not included in the final pipeline
+│   ├── analysis/                
+│   ├── scripts_drafts/          
+│   └── clusteringTA/            
+├── analysis_functions.py        # Core logic for statistical tests and disease trajectories
+├── clustering_functions.py      # PCA implementation and K-Means clustering logic
+├── cleaning_data_functions.py   # Data loading, validation, and preprocessing pipelines
+├── Main.py                      # Central entry point to run the full analysis
+├── README.md                    # Project documentation
+└── requirements.txt             # Project dependencies  
 
 - # Tech Stack
 Language: Python
