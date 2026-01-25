@@ -6,7 +6,7 @@ Hypothesis: Parkinson's symptoms follow unique, dissociated trajectories per pat
 
 # Create Logger
 import logging
-logging.basicConfig(level=logging.INFO, format='%(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 #Import all functions
 from cleaning_data.data_cleaning import load_and_clean_data
