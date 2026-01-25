@@ -9,7 +9,7 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 #Import all functions
-from cleaning_data.data_cleaning import load_and_clean_data
+from data_cleaning import load_and_clean_data
 from analysis_logic import *
 from clustering_functions import *
 
@@ -21,13 +21,13 @@ from clustering_functions import *
 file_path = 'data/parkinsons_disease_data.csv'
 index_col = 'PatientID'
 columns_to_drop = ['DoctorInCharge']
-output_file = 'data/parkinsons_cleaned.csv'
+cleand_data_path = "data/parkinsons_cleaned.csv"
 # ---Cleaning data function ---
     #GET - csv file, string that represent index column, list of irrelevant Columns.
     #CHECKS - if all the inputs are right type. ELSE - value error
     #RETURN - data frame without the irrelevant Columns, index column set as index column, without duplicates
 df_clean = load_and_clean_data(file_path, index_col, columns_to_drop)
-df_clean.to_csv(output_file, index=True)
+df_clean.to_csv(cleand_data_path, index=True)
 print(df_clean.head())
 
 
@@ -35,7 +35,6 @@ print(df_clean.head())
 [Step 1] Clinical Analysis Pipeline
 """
 #1 load dataset
-cleand_data_path = "data/parkinsons_cleaned.csv"
 df = load_dataset(cleand_data_path)
 
 #2 plot_global_heatmap

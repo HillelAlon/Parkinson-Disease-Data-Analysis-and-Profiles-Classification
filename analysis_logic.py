@@ -60,7 +60,7 @@ def plot_feature_correlation_profile(data, target_feature):
     bars = plt.bar(target_corrs.index, target_corrs.values, color=colors, edgecolor='grey', alpha=0.9)
     
     # 4. Styling for a professional look
-    plt.title(f'figure 1.3: Feature Correlation Profile: How "{target_feature}" relates to everything else', 
+    plt.title(f'figure 1.2: Feature Correlation Profile: How "{target_feature}" relates to everything else',
               fontsize=16, fontweight='bold', pad=20)
     plt.ylabel('Correlation Strength (Pearson Coefficient)', fontsize=12)
     plt.xlabel('All Other Dataset Features', fontsize=12)
